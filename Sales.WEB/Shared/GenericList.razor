@@ -1,0 +1,57 @@
+﻿@typeparam Titem
+
+@if (MyList is null)
+{
+    @if (Loading is null)
+    {
+        <img alt="loading..." src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" />
+    }
+    else
+    {
+        @Loading
+    }
+}
+else if (MyList.Count == 0)
+{
+    @if (NoRecords is null)
+    {
+        <p>No hay registros para mostrar.</p>
+    }
+    else
+    {
+        @NoRecords
+    }
+}
+else
+{
+    if (Records is not null)
+    {
+        @foreach (var item in MyList)
+        {
+            @Records(item)
+        }
+    }
+    else
+    {
+        @RecordsComplete
+    }
+
+}
+
+@code {
+    [Parameter]
+    public RenderFragment Loading { get; set; } = null!;
+
+    [Parameter]
+    public RenderFragment NoRecords { get; set; } = null!;
+
+    [Parameter]
+    public RenderFragment<Titem> Records { get; set; } = null!;
+
+    [Parameter]
+    public RenderFragment RecordsComplete { get; set; } = null!;
+
+    [Parameter]
+    [EditorRequired]
+    public List<Titem> MyList { get; set; } = null!;
+}

@@ -1,0 +1,45 @@
+﻿@page "/countries"
+@inject IRepository repository
+
+<h3>Paises</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/countries/create">Nuevo País</a>
+</div>
+
+<GenericList MyList="Countries">
+    <RecordsComplete>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>País</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var country in Countries!)
+                {
+                    <tr>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+                        <td>
+                            @country.Name
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </RecordsComplete>
+</GenericList>
+
+@code {
+    public List<Country>? Countries { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var responseHppt = await repository.Get<List<Country>>("api/countries");
+        Countries = responseHppt.Response!;
+    }
+}
