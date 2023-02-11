@@ -11,7 +11,7 @@
 }
 else
 {
-    <CountryForm @ref="countryForm" Country="country" OnValidSubmit="Edit" />
+    <CountryForm @ref="countryForm" Country="country" OnValidSubmit="Edit" ReturnAction="Return" />
 }
 
 
@@ -58,5 +58,10 @@ else
             countryForm!.FormPostedSuccessfully = true;
             navigationManager.NavigateTo("countries");
         }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("countries");
     }
 }
