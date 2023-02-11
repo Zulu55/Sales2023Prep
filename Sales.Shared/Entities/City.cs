@@ -11,6 +11,6 @@ namespace Sales.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Name { get; set; } = null!;
 
-        public State State { get; set; } = null!;
+        public State? State { get; set; }
     }
 }

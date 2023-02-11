@@ -44,7 +44,7 @@ namespace Sales.API.Migrations
                     b.HasIndex("Name", "StateId")
                         .IsUnique();
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("Sales.Shared.Entities.Country", b =>
@@ -65,7 +65,7 @@ namespace Sales.API.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("Sales.Shared.Entities.State", b =>
@@ -91,7 +91,7 @@ namespace Sales.API.Migrations
                     b.HasIndex("Name", "CountryId")
                         .IsUnique();
 
-                    b.ToTable("States");
+                    b.ToTable("States", (string)null);
                 });
 
             modelBuilder.Entity("Sales.Shared.Entities.City", b =>
