@@ -1,0 +1,100 @@
+﻿@page "/states/details/{Id:int}"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
+
+@if (state is null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <h3>@state.Name</h3>
+    <div class="mb-3">
+        <a class="btn btn-primary" href="/cities/create/@state.Id">Nueva Ciudad</a>
+        <a class="btn btn-success" href="/states/detailes/@Id">Regresar</a>
+    </div>
+
+    <GenericList MyList="cities">
+        <RecordsComplete>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Ciudades</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var city in state.Cities!)
+                    {
+                        <tr>
+                            <td>
+                                <a href="/cities/edit/@Id/@city.Id" class="btn btn-warning">Editar</a>
+                                <button class="btn btn-danger" @onclick=@(() => Delete(city))>Borrar</button>
+                            </td>
+                            <td>@city.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </RecordsComplete>
+    </GenericList>
+}
+
+@code {
+    private State? state;
+    private List<City>? cities;
+    private StateForm? stateForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        var responseHppt = await repository.Get<State>($"api/states/{Id}");
+        state = responseHppt.Response!;
+        cities = state.Cities!.ToList();
+    }
+
+    private async Task Delete(City city)
+    {
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Esta seguro que quieres borrar el registro?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true
+            });
+
+        var confirm = string.IsNullOrEmpty(result.Value);
+
+        if (confirm)
+        {
+            return;
+        }
+
+        var responseHTTP = await repository.Delete($"api/cities/{city.Id}");
+
+        if (responseHTTP.Error)
+        {
+            if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/");
+            }
+            else
+            {
+                var mensajeError = await responseHTTP.GetErrorMessage();
+                await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            await Load();
+        }
+    }
+}

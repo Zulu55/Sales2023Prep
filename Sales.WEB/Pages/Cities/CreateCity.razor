@@ -1,0 +1,63 @@
+﻿@page "/cities/create/{Id:int}"
+@inject NavigationManager navigationManager
+@inject IRepository repository
+@inject SweetAlertService swal
+
+<h3>Crear Ciudad</h3>
+
+<CityForm @ref="cityForm" City="city" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private City city = new();
+    private CityForm? cityForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private async Task Create()
+    {
+        State state = new();
+        var responseHTTP = await repository.Get<State>($"api/states/{Id}");
+
+        if (responseHTTP.Error)
+        {
+            if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("countries");
+            }
+            else
+            {
+                var messageError = await responseHTTP.GetErrorMessage();
+                await swal.FireAsync("Error", messageError, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            state = responseHTTP.Response!;
+        }
+
+        if (state.Cities == null)
+        {
+            state.Cities = new List<City>();
+        }
+
+        state.Cities.Add(city);
+        var httpResponse = await repository.Put("api/states", state);
+
+        if (httpResponse.Error)
+        {
+            var mensajeError = await httpResponse.GetErrorMessage();
+            await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+        }
+        else
+        {
+            cityForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo($"/states/details/{Id}");
+        }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo($"/states/details/{Id}");
+    }
+}
