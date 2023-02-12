@@ -20,7 +20,6 @@ namespace Sales.API.Controllers
         public async Task<ActionResult> Get()
         {
             return Ok(await _context.Cities
-                .Include(x => x.State)
                 .ToListAsync());
         }
 
@@ -28,7 +27,6 @@ namespace Sales.API.Controllers
         public async Task<ActionResult> Get(int id)
         {
             var city = await _context.Cities
-                .Include(x => x.State)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (city is null)
             {

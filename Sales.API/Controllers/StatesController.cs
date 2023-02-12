@@ -20,7 +20,6 @@ namespace Sales.API.Controllers
         public async Task<ActionResult> Get()
         {
             return Ok(await _context.States
-                .Include(x => x.Country)
                 .Include(x => x.Cities)
                 .ToListAsync());
         }
@@ -29,7 +28,6 @@ namespace Sales.API.Controllers
         public async Task<ActionResult> Get(int id)
         {
             var state = await _context.States
-                .Include(x => x.Country)
                 .Include(x => x.Cities)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (state is null)
@@ -69,9 +67,9 @@ namespace Sales.API.Controllers
         [HttpPut]
         public async Task<ActionResult> Put(State state)
         {
-            _context.Update(state);
             try
             {
+                _context.Update(state);
                 await _context.SaveChangesAsync();
                 return Ok(state);
             }

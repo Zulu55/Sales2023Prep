@@ -5,7 +5,7 @@
 
 <h3>Crear Estado/Departamento</h3>
 
-<StateForm @ref="stateForm" State="state" OnValidSubmit="Crear" />
+<StateForm @ref="stateForm" State="state" OnValidSubmit="Create" ReturnAction="Return" />
 
 @code {
     private State state = new();
@@ -14,7 +14,7 @@
     [Parameter]
     public int Id { get; set; }
 
-    private async Task Crear()
+    private async Task Create()
     {
         Country country = new();
         var responseHTTP = await repository.Get<Country>($"api/countries/{Id}");
@@ -54,5 +54,10 @@
             stateForm!.FormPostedSuccessfully = true;
             navigationManager.NavigateTo($"/countries/details/{Id}");
         }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo($"/countries/details/{Id}");
     }
 }

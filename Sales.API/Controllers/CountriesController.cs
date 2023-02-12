@@ -21,6 +21,14 @@ namespace Sales.API.Controllers
         {
             return Ok(await _context.Countries
                 .Include(x => x.States)
+                .ToListAsync());
+        }
+
+        [HttpGet("full")]
+        public async Task<ActionResult> GetFull()
+        {
+            return Ok(await _context.Countries
+                .Include(x => x.States!)
                 .ThenInclude(x => x.Cities)
                 .ToListAsync());
         }
