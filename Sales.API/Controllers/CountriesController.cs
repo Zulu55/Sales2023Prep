@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sales.API.Data;
+using Sales.API.Helpers;
+using Sales.Shared.DTOs;
 using Sales.Shared.Entities;
 
 namespace Sales.API.Controllers
@@ -17,19 +19,31 @@ namespace Sales.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromQuery] PaginationDTO pagination)
         {
-            return Ok(await _context.Countries
+            var queryable = _context.Countries
                 .Include(x => x.States)
+                .AsQueryable();
+            await HttpContext
+                .InsertPaginationParametersInResponse(queryable, pagination.RecordsNumber);
+            return Ok(await queryable
+                .OrderBy(x => x.Name)
+                .Paginate(pagination)
                 .ToListAsync());
         }
 
         [HttpGet("full")]
-        public async Task<ActionResult> GetFull()
+        public async Task<ActionResult> GetFull([FromQuery] PaginationDTO pagination)
         {
-            return Ok(await _context.Countries
+            var queryable = _context.Countries
                 .Include(x => x.States!)
                 .ThenInclude(x => x.Cities)
+                .AsQueryable();
+            await HttpContext
+                .InsertPaginationParametersInResponse(queryable, pagination.RecordsNumber);
+            return Ok(await queryable
+                .OrderBy(x => x.Name)
+                .Paginate(pagination)
                 .ToListAsync());
         }
 
@@ -37,7 +51,7 @@ namespace Sales.API.Controllers
         public async Task<ActionResult> Get(int id)
         {
             var country = await _context.Countries
-                .Include(x => x.States)
+                .Include(x => x.States!)
                 .ThenInclude(x => x.Cities)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (country is null)

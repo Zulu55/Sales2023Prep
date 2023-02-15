@@ -9,6 +9,10 @@
     <a class="btn btn-primary" href="/countries/create">Nuevo País</a>
 </div>
 
+<Pagination CurrentPage="currentPage"
+            TotalPages="totalPage"
+            SelectedPage="SelectedPage"></Pagination>
+
 <GenericList MyList="Countries">
     <RecordsComplete>
         <table class="table table-striped">
@@ -43,16 +47,28 @@
 
 @code {
     public List<Country>? Countries { get; set; }
+    private int currentPage = 1;
+    private int totalPage;
 
     protected async override Task OnInitializedAsync()
     {
         await Load();
     }
 
-    private async Task Load()
+    private async Task SelectedPage(int page)
     {
-        var responseHppt = await repository.Get<List<Country>>("api/countries");
+        currentPage = page;
+        await Load(page);
+    }
+
+    private async Task Load(int page = 1)
+    {
+        var responseHppt = await repository.Get<List<Country>>($"api/countries?page={page}");
         Countries = responseHppt.Response!;
+        var x = responseHppt.HttpResponseMessage.Headers.GetValues("server").FirstOrDefault();
+        var y = responseHppt.HttpResponseMessage.Headers.GetValues("count").FirstOrDefault();
+        var pageTotal = responseHppt.HttpResponseMessage.Headers.GetValues("pageTotal").FirstOrDefault()!;
+        totalPage = int.Parse(pageTotal);
     }
 
     private async Task Delete(Country country)
