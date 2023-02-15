@@ -65,7 +65,7 @@
     {
         var responseHppt = await repository.Get<List<Country>>($"api/countries?page={page}");
         Countries = responseHppt.Response!;
-        var x = responseHppt.HttpResponseMessage.Headers.GetValues("server").FirstOrDefault();
+        var x = responseHppt.HttpResponseMessage.Headers.GetValues("Server").FirstOrDefault();
         var y = responseHppt.HttpResponseMessage.Headers.GetValues("count").FirstOrDefault();
         var pageTotal = responseHppt.HttpResponseMessage.Headers.GetValues("pageTotal").FirstOrDefault()!;
         totalPage = int.Parse(pageTotal);
