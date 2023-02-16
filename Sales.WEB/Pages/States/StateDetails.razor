@@ -15,24 +15,28 @@ else
         <a class="btn btn-success" href="/states/detailes/@Id">Regresar</a>
     </div>
 
+    <Pagination CurrentPage="currentPage"
+            TotalPages="totalPages"
+            SelectedPage="SelectedPage" />
+
     <GenericList MyList="cities">
         <RecordsComplete>
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Ciudades</th>
+                        <th style="width:200px"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var city in state.Cities!)
+                    @foreach (var city in cities!)
                     {
                         <tr>
+                            <td>@city.Name</td>
                             <td>
                                 <a href="/cities/edit/@Id/@city.Id" class="btn btn-warning">Editar</a>
                                 <button class="btn btn-danger" @onclick=@(() => Delete(city))>Borrar</button>
                             </td>
-                            <td>@city.Name</td>
                         </tr>
                     }
                 </tbody>
@@ -44,6 +48,8 @@ else
 @code {
     private State? state;
     private List<City>? cities;
+    private int currentPage = 1;
+    private int totalPages;
 
     [Parameter]
     public int Id { get; set; }
@@ -53,11 +59,20 @@ else
         await Load();
     }
 
-    private async Task Load()
+    private async Task SelectedPage(int page)
+    {
+        currentPage = page;
+        await Load(page);
+    }
+
+    private async Task Load(int page = 1)
     {
         var responseHppt = await repository.Get<State>($"api/states/{Id}");
-        state = responseHppt.Response!;
-        cities = state.Cities!.ToList();
+        var responseHppt2 = await repository.Get<List<City>>($"api/cities?id={Id}&page={page}");
+        var responseHppt3 = await repository.Get<int>($"api/cities/totalPages?id={Id}");
+        state = responseHppt.Response;
+        cities = responseHppt2.Response;
+        totalPages = responseHppt3.Response;
     }
 
     private async Task Delete(City city)
