@@ -20,8 +20,8 @@ namespace Sales.API.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Country>().HasIndex(c => c.Name).IsUnique();
-            modelBuilder.Entity<State>().HasIndex("Name", "CountryId").IsUnique();
-            modelBuilder.Entity<City>().HasIndex("Name", "StateId").IsUnique();
+            modelBuilder.Entity<State>().HasIndex("CountryId", "Name").IsUnique();
+            modelBuilder.Entity<City>().HasIndex("StateId", "Name").IsUnique();
         }
     }
 }

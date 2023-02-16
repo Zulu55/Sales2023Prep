@@ -2,8 +2,8 @@
 {
     public class PaginationDTO
     {
-        public int Page { get; set; } = 1;
-
-        public int RecordsNumber { get; set; } = 3;
+        public int Pagina { get; set; } = 1;
+        
+        public int CantidadRegistros { get; set; } = 10;
     }
 }

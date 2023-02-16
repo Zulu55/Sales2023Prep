@@ -9,9 +9,10 @@
     <a class="btn btn-primary" href="/countries/create">Nuevo País</a>
 </div>
 
-<Pagination CurrentPage="currentPage"
-            TotalPages="totalPage"
-            SelectedPage="SelectedPage"></Pagination>
+<Paginacion PaginaActual="paginaActual" 
+    PaginasTotales="paginasTotales"
+    PaginaSeleccionada="PaginaSeleccionada"
+    ></Paginacion>
 
 <GenericList MyList="Countries">
     <RecordsComplete>
@@ -47,28 +48,26 @@
 
 @code {
     public List<Country>? Countries { get; set; }
-    private int currentPage = 1;
-    private int totalPage;
+    private int paginaActual = 1;
+    private int paginasTotales;
 
     protected async override Task OnInitializedAsync()
     {
         await Load();
     }
 
-    private async Task SelectedPage(int page)
+    private async Task PaginaSeleccionada(int pagina)
     {
-        currentPage = page;
-        await Load(page);
+        paginaActual = pagina;
+        await Load(pagina);
     }
 
-    private async Task Load(int page = 1)
+    private async Task Load(int pagina = 1)
     {
-        var responseHppt = await repository.Get<List<Country>>($"api/countries?page={page}");
+        var responseHppt = await repository.Get<List<Country>>($"api/countries?pagina={pagina}");
+        var responseHppt2 = await repository.Get<int>($"api/countries/totalPages");
         Countries = responseHppt.Response!;
-        var x = responseHppt.HttpResponseMessage.Headers.GetValues("Server").FirstOrDefault();
-        var y = responseHppt.HttpResponseMessage.Headers.GetValues("count").FirstOrDefault();
-        var pageTotal = responseHppt.HttpResponseMessage.Headers.GetValues("pageTotal").FirstOrDefault()!;
-        totalPage = int.Parse(pageTotal);
+        paginasTotales = responseHppt2.Response!;
     }
 
     private async Task Delete(Country country)

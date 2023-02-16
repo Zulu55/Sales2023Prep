@@ -4,11 +4,12 @@ namespace Sales.API.Helpers
 {
     public static class QueryableExtensions
     {
-        public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, PaginationDTO pagination)
+        public static IQueryable<T> Paginar<T>(this IQueryable<T> queryable,
+            PaginationDTO paginacion)
         {
             return queryable
-                .Skip((pagination.Page - 1) * pagination.RecordsNumber)
-                .Take(pagination.RecordsNumber);
+                .Skip((paginacion.Pagina - 1) * paginacion.CantidadRegistros)
+                .Take(paginacion.CantidadRegistros);
         }
     }
 }

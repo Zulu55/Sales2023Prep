@@ -4,6 +4,7 @@ using Sales.API.Data;
 using Sales.API.Helpers;
 using Sales.Shared.DTOs;
 using Sales.Shared.Entities;
+using System.Linq;
 
 namespace Sales.API.Controllers
 {
@@ -19,31 +20,33 @@ namespace Sales.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Get([FromQuery] PaginationDTO pagination)
+        public async Task<ActionResult> Get([FromQuery] PaginationDTO paginacion)
         {
             var queryable = _context.Countries
                 .Include(x => x.States)
                 .AsQueryable();
-            await HttpContext
-                .InsertPaginationParametersInResponse(queryable, pagination.RecordsNumber);
             return Ok(await queryable
                 .OrderBy(x => x.Name)
-                .Paginate(pagination)
+                .Paginar(paginacion)
                 .ToListAsync());
         }
 
-        [HttpGet("full")]
-        public async Task<ActionResult> GetFull([FromQuery] PaginationDTO pagination)
+        [HttpGet("totalPages")]
+        public async Task<ActionResult> GetPages([FromQuery] PaginationDTO paginacion)
         {
-            var queryable = _context.Countries
+            var queryable = _context.Countries.AsQueryable();
+            double conteo = await queryable.CountAsync();
+            double totalPaginas = Math.Ceiling(conteo / paginacion.CantidadRegistros);
+            return Ok(totalPaginas);
+        }
+
+
+        [HttpGet("full")]
+        public async Task<ActionResult> GetFull()
+        {
+            return Ok(await _context.Countries
                 .Include(x => x.States!)
                 .ThenInclude(x => x.Cities)
-                .AsQueryable();
-            await HttpContext
-                .InsertPaginationParametersInResponse(queryable, pagination.RecordsNumber);
-            return Ok(await queryable
-                .OrderBy(x => x.Name)
-                .Paginate(pagination)
                 .ToListAsync());
         }
 
