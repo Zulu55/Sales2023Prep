@@ -10,9 +10,19 @@
 else
 {
     <h3>@state.Name</h3>
-    <div class="mb-3">
-        <a class="btn btn-primary" href="/cities/create/@state.Id">Nueva Ciudad</a>
-        <a class="btn btn-success" href="/states/detailes/@Id">Regresar</a>
+
+    <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+        <div>
+            <a class="btn btn-primary" href="/cities/create/@state.Id">Nueva Ciudad</a>
+            <a class="btn btn-success" href="/states/detailes/@Id">Regresar</a>
+        </div>
+        <div class="mx-2">
+            <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar estado/departamento..." @bind-value="Filter" />
+        </div>
+        <div>
+            <button type="button" class="btn btn-outline-primary" @onclick="ApplyFilterAsync">Filtrar</button>
+            <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
+        </div>
     </div>
 
     <Pagination CurrentPage="currentPage"
@@ -54,6 +64,14 @@ else
     [Parameter]
     public int Id { get; set; }
 
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Page { get; set; } = "";
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Filter { get; set; } = "";
+
     protected async override Task OnInitializedAsync()
     {
         await Load();
@@ -67,9 +85,28 @@ else
 
     private async Task Load(int page = 1)
     {
+        if (!string.IsNullOrWhiteSpace(Page))
+        {
+            page = Convert.ToInt32(Page);
+        }
+
+        string url1 = string.Empty;
+        string url2 = string.Empty;
+
+        if (string.IsNullOrEmpty(Filter))
+        {
+            url1 = $"api/cities?id={Id}&page={page}";
+            url2 = $"api/cities/totalPages?id={Id}";
+        }
+        else
+        {
+            url1 = $"api/cities?id={Id}&page={page}&filter={Filter}";
+            url2 = $"api/cities/totalPages?id={Id}&filter={Filter}";
+        }
+
         var responseHppt = await repository.Get<State>($"api/states/{Id}");
-        var responseHppt2 = await repository.Get<List<City>>($"api/cities?id={Id}&page={page}");
-        var responseHppt3 = await repository.Get<int>($"api/cities/totalPages?id={Id}");
+        var responseHppt2 = await repository.Get<List<City>>(url1);
+        var responseHppt3 = await repository.Get<int>(url2);
         state = responseHppt.Response;
         cities = responseHppt2.Response;
         totalPages = responseHppt3.Response;
@@ -110,5 +147,16 @@ else
         {
             await Load();
         }
+    }
+
+    private async Task ApplyFilterAsync()
+    {
+        await Load();
+    }
+
+    private async Task CleanFilterAsync()
+    {
+        Filter = string.Empty;
+        await Load();
     }
 }
