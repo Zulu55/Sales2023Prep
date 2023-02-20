@@ -5,8 +5,17 @@
 
 <h3>Paises</h3>
 
-<div class="mb-3">
-    <a class="btn btn-primary" href="/countries/create">Nuevo País</a>
+<div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+    <div>
+        <a class="btn btn-primary" href="/countries/create">Nuevo País</a>
+    </div>
+    <div class="mx-2">
+        <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar país..." @bind-value="Filter" />
+    </div>
+    <div>
+        <button type="button" class="btn btn-outline-primary" @onclick="ApplyFilterAsync">Filtrar</button>
+        <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
+    </div>
 </div>
 
 <Pagination CurrentPage="currentPage"
@@ -50,6 +59,14 @@
     private int currentPage = 1;
     private int totalPages;
 
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Page { get; set; } = "";
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Filter { get; set; } = "";
+
     protected async override Task OnInitializedAsync()
     {
         await Load();
@@ -63,8 +80,27 @@
 
     private async Task Load(int page = 1)
     {
-        var responseHppt = await repository.Get<List<Country>>($"api/countries?page={page}");
-        var responseHppt2 = await repository.Get<int>($"api/countries/totalPages");
+        if (!string.IsNullOrWhiteSpace(Page))
+        {
+            page = Convert.ToInt32(Page);
+        }
+
+        string url1 = string.Empty;
+        string url2 = string.Empty;
+
+        if (string.IsNullOrEmpty(Filter))
+        {
+            url1 = $"api/countries?page={page}";
+            url2 = $"api/countries/totalPages";
+        }
+        else
+        {
+            url1 = $"api/countries?page={page}&filter={Filter}";
+            url2 = $"api/countries/totalPages?filter={Filter}";
+        }
+
+        var responseHppt = await repository.Get<List<Country>>(url1);
+        var responseHppt2 = await repository.Get<int>(url2);
         Countries = responseHppt.Response!;
         totalPages = responseHppt2.Response!;
     }
@@ -104,5 +140,16 @@
         {
             await Load();
         }
+    }
+
+    private async Task ApplyFilterAsync()
+    {
+        await Load();
+    }
+
+    private async Task CleanFilterAsync()
+    {
+        Filter = string.Empty;
+        await Load();
     }
 }
