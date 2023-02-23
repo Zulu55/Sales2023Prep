@@ -11,6 +11,8 @@ namespace Sales.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Name { get; set; } = null!;
 
+        public int CountryId { get; set; }
+
         public Country? Country { get; set; }
 
         public ICollection<City>? Cities { get; set; }
