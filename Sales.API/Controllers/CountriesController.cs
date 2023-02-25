@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sales.API.Data;
 using Sales.API.Helpers;
 using Sales.Shared.DTOs;
 using Sales.Shared.Entities;
-using System.Linq;
 
 namespace Sales.API.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("/api/countries")]
     public class CountriesController : ControllerBase
     {
@@ -26,7 +28,7 @@ namespace Sales.API.Controllers
                 .Include(x => x.States)
                 .AsQueryable();
 
-            if(!string.IsNullOrWhiteSpace(pagination.Filter))
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
                 queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
             }
