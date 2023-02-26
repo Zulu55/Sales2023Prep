@@ -8,7 +8,5 @@ namespace Sales.Shared.DTOs
 
         public DateTime Expiration { get; set; }
 
-        public User User { get; set; } = null!;
-
     }
 }

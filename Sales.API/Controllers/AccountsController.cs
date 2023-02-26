@@ -55,6 +55,13 @@ namespace Sales.API.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Email!),
+                new Claim(ClaimTypes.Role, user.UserType.ToString()),
+                new Claim("Document", user.Document),
+                new Claim("FirstName", user.FirstName),
+                new Claim("LastName", user.LastName),
+                new Claim("Address", user.Address),
+                new Claim("Photo", user.Photo ?? string.Empty),
+                new Claim("CityId", user.CityId.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwtKey"]!));
@@ -70,8 +77,7 @@ namespace Sales.API.Controllers
             return new TokenDTO
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = expiration,
-                User = user
+                Expiration = expiration
             };
         }
     }
