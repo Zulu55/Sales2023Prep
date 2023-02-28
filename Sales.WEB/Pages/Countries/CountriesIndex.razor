@@ -4,56 +4,68 @@
 @inject SweetAlertService swal
 @attribute [Authorize(Roles = "Admin")]
 
-<h3>Paises</h3>
+@if (Countries is null)
+{
+    <div class="spinner"/>
+}
+else
+{
+    <GenericList MyList="Countries">
+        <RecordsComplete>
+            <div class="card">
+                <div class="card-header">
+                    <span>
+                        <i class="oi oi-globe"></i> Países 
+                        <a class="btn btn-sm btn-primary float-end" href="/countries/create"><i class="oi oi-plus"></i> Adicionar País</a>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+                        <div>
+                            <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar país..." @bind-value="Filter" />
+                        </div>
+                        <div class="mx-1">
+                            <button type="button" class="btn btn-outline-primary" @onclick="ApplyFilterAsync"><i class="oi oi-layers" /> Filtrar</button>
+                            <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync"><i class="oi oi-ban" /> Limpiar</button>
+                        </div>
+                    </div>
 
-<div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
-    <div>
-        <a class="btn btn-primary" href="/countries/create">Nuevo País</a>
-    </div>
-    <div class="mx-2">
-        <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar país..." @bind-value="Filter" />
-    </div>
-    <div>
-        <button type="button" class="btn btn-outline-primary" @onclick="ApplyFilterAsync">Filtrar</button>
-        <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
-    </div>
-</div>
+                    <Pagination CurrentPage="currentPage"
+                            TotalPages="totalPages"
+                            SelectedPage="SelectedPage" />
 
-<Pagination CurrentPage="currentPage"
-            TotalPages="totalPages"
-            SelectedPage="SelectedPage" />
-
-<GenericList MyList="Countries">
-    <RecordsComplete>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>País</th>
-                    <th style="width:280px">Departamentos / Estados</th>
-                    <th style="width:280px"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var country in Countries!)
-                {
-                    <tr>
-                        <td>
-                            @country.Name
-                        </td>
-                        <td>
-                            @country.StatesNumber
-                        </td>
-                        <td>
-                            <a href="/countries/details/@country.Id" class="btn btn-info">Detalles</a>
-                            <a href="/countries/edit/@country.Id" class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger" @onclick=@(() => Delete(country))>Borrar</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </RecordsComplete>
-</GenericList>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>País</th>
+                                <th style="width:220px">Departamentos / Estados</th>
+                                <th style="width:310px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var country in Countries!)
+                            {
+                                <tr>
+                                    <td>
+                                        @country.Name
+                                    </td>
+                                    <td>
+                                        @country.StatesNumber
+                                    </td>
+                                    <td>
+                                        <a href="/countries/details/@country.Id" class="btn btn-info"><i class="oi oi-list"/> Detalles</a>
+                                        <a href="/countries/edit/@country.Id" class="btn btn-warning"><i class="oi oi-pencil"/> Editar</a>
+                                        <button class="btn btn-danger" @onclick=@(() => Delete(country))><i class="oi oi-trash"/> Borrar</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </RecordsComplete>
+    </GenericList>
+}
 
 @code {
     public List<Country>? Countries { get; set; }
@@ -104,6 +116,7 @@
         {
             var responseHppt = await repository.Get<List<Country>>(url1);
             var responseHppt2 = await repository.Get<int>(url2);
+            //Thread.Sleep(6000);
             Countries = responseHppt.Response!;
             totalPages = responseHppt2.Response!;
         }

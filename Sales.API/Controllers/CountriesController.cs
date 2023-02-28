@@ -63,6 +63,14 @@ namespace Sales.API.Controllers
                 .ToListAsync());
         }
 
+
+        [AllowAnonymous]
+        [HttpGet("combo")]
+        public async Task<ActionResult> GetCombo()
+        {
+            return Ok(await _context.Countries.ToListAsync());
+        }
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult> Get(int id)
         {

@@ -71,6 +71,15 @@ namespace Sales.API.Controllers
             return Ok(state);
         }
 
+        [AllowAnonymous]
+        [HttpGet("combo/{countryId:int}")]
+        public async Task<ActionResult> GetCombo(int countryId)
+        {
+            return Ok(await _context.States
+                .Where(x => x.CountryId == countryId)
+                .ToListAsync());
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post(State state)
         {

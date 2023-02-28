@@ -32,6 +32,8 @@ namespace Sales.Shared.Entities
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
 
+        [Display(Name = "Ciudad")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar una {0}.")]
         public int CityId { get; set; }
 
         [Display(Name = "Ciudad")]
