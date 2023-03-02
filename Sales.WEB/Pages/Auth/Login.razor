@@ -5,11 +5,11 @@
 @inject ILoginService loginService
 
 <div class="row">
-    <div class="col-4">
+    <div class="col-md-4  offset-md-4">
         <EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
             <DataAnnotationsValidator />
 
-            <div class="card">
+            <div class="card bg-light">
                 <div class="card-header justify-content-center">
                     <span>
                         <i class="oi oi-account-login" /> Iniciar Sesión

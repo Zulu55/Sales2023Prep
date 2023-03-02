@@ -9,33 +9,42 @@ using System.Text;
 
 namespace Sales.API.Controllers
 {
-    [ApiController]
-    [Route("/api/accounts")]
-    public class AccountsController : ControllerBase
+[ApiController]
+[Route("/api/accounts")]
+public class AccountsController : ControllerBase
+{
+    private readonly IUserHelper _userHelper;
+    private readonly IConfiguration _configuration;
+    private readonly IFileStorage _fileStorage;
+    private readonly string _container;
+
+    public AccountsController(IUserHelper userHelper, IConfiguration configuration, IFileStorage fileStorage)
     {
-        private readonly IUserHelper _userHelper;
-        private readonly IConfiguration _configuration;
+        _userHelper = userHelper;
+        _configuration = configuration;
+        _fileStorage = fileStorage;
+        _container = "users";
+    }
 
-        public AccountsController(IUserHelper userHelper, IConfiguration configuration)
+    [HttpPost("CreateUser")]
+    public async Task<ActionResult> CreateUser([FromBody] UserDTO model)
+    {
+        User user = model;
+        if(!string.IsNullOrEmpty(model.Photo)) 
         {
-            _userHelper = userHelper;
-            _configuration = configuration;
+            var photoUser = Convert.FromBase64String(model.Photo);
+            model.Photo = await _fileStorage.SaveFileAsync(photoUser, ".jpg", _container);
         }
 
-        [HttpPost("CreateUser")]
-        public async Task<ActionResult> CreateUser([FromBody] UserDTO model)
+        var result = await _userHelper.AddUserAsync(user, model.Password);
+        if (result.Succeeded)
         {
-            User user = model;
-            var result = await _userHelper.AddUserAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                await _userHelper.AddUserToRoleAsync(user, user.UserType.ToString());
-                return Ok(BuildToken(user));
-            }
-
-            return BadRequest(result.Errors.FirstOrDefault());
+            await _userHelper.AddUserToRoleAsync(user, user.UserType.ToString());
+            return Ok(BuildToken(user));
         }
 
+        return BadRequest(result.Errors.FirstOrDefault());
+    }
 
         [HttpPost("Login")]
         public async Task<ActionResult> Login([FromBody] LoginDTO model)
