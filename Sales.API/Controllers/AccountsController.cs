@@ -109,6 +109,32 @@ namespace Sales.API.Controllers
             return Ok(await _userHelper.GetUserAsync(email));
         }
 
+
+        [HttpPost("changePassword")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult> ChangePasswordAsync(ChangePasswordDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userHelper.GetUserAsync(User.Identity!.Name!);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userHelper.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors.FirstOrDefault().Description);
+            }
+
+            return NoContent();
+        }
+
+
         private TokenDTO BuildToken(User user)
         {
             var claims = new List<Claim>
