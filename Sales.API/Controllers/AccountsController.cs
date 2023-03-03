@@ -134,7 +134,6 @@ namespace Sales.API.Controllers
             return NoContent();
         }
 
-
         private TokenDTO BuildToken(User user)
         {
             var claims = new List<Claim>
