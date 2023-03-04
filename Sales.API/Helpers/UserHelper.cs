@@ -50,7 +50,7 @@ namespace Sales.API.Helpers
 
         public async Task<SignInResult> LoginAsync(LoginDTO model)
         {
-            return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, true);
         }
 
         public async Task LogoutAsync()
@@ -60,11 +60,11 @@ namespace Sales.API.Helpers
 
         public async Task<User> GetUserAsync(string email)
         {
-            return await _context.Users
-                .Include(u => u.City)
-                .ThenInclude(c => c.State)
+            return await _context!.Users!
+                .Include(u => u.City!)
+                .ThenInclude(c => c.State!)
                 .ThenInclude(s => s.Country)
-                .FirstOrDefaultAsync(u => u.Email == email);
+                .FirstOrDefaultAsync(u => u.Email! == email);
         }
 
         public async Task<User> GetUserAsync(Guid userId)
@@ -84,6 +84,16 @@ namespace Sales.API.Helpers
         public async Task<IdentityResult> UpdateUserAsync(User user)
         {
             return await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
+
+        public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
+        {
+            return await _userManager.ConfirmEmailAsync(user, token);
         }
     }
 }
