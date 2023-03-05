@@ -2,7 +2,7 @@
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"></NavigationLock>
 
-<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+<EditForm EditContext="editContext" OnValidSubmit="OnDataAnnotationsValidatedAsync">
     <DataAnnotationsValidator />
 
     <div class="card">
@@ -37,8 +37,6 @@
                             <ValidationMessage For="@(() => Product.Price)" />
                         </div>
                     </div>
-                </div>
-                <div class="col-6">
                     <div class="mb-3">
                         <label>Inventario:</label>
                         <div>
@@ -46,11 +44,16 @@
                             <ValidationMessage For="@(() => Product.Stock)" />
                         </div>
                     </div>
+                </div>
+                <div class="col-6">
                     <div class="mb-3">
                         <label>Categorías:</label>
                         <div>
                             <MultipleSelector NonSelected="nonSelected" Selected="selected" />
                         </div>
+                    </div>
+                    <div class="mb-3">
+                        <InputImg Label="Foto" ImageSelected="ImageSelected" ImageURL="@imageUrl" />
                     </div>
                 </div>
             </div>
@@ -62,6 +65,7 @@
     private EditContext editContext = null!;
     private List<MultipleSelectorModel> selected { get; set; } = new();
     private List<MultipleSelectorModel> nonSelected { get; set; } = new();
+    private string? imageUrl;
 
     [EditorRequired]
     [Parameter]
@@ -76,7 +80,6 @@
     public EventCallback ReturnAction { get; set; }
 
     [Parameter]
-    [EditorRequired]
     public List<Category> SelectedCategories { get; set; } = new();
 
     [Parameter]
@@ -91,6 +94,18 @@
 
         selected = SelectedCategories.Select(x => new MultipleSelectorModel(x.Id.ToString(), x.Name)).ToList();
         nonSelected = NonSelectedCategories.Select(x => new MultipleSelectorModel(x.Id.ToString(), x.Name)).ToList();
+    }
+
+    private void ImageSelected(string imagenBase64)
+    {
+        Product.ProductImages!.Add(new ProductImage { Image = imagenBase64 });
+        imageUrl = null;
+    }
+
+    private async Task OnDataAnnotationsValidatedAsync()
+    {
+        Product.ProductCategories = selected.Select(x => new ProductCategory { CategoryId = int.Parse(x.Key) }).ToList();
+        await OnValidSubmit.InvokeAsync();
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)

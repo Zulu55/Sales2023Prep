@@ -3,17 +3,22 @@
 @inject NavigationManager navigationManager
 @inject SweetAlertService sweetAlertService
 
-@if(loading)
+@if (loading)
 {
     <div class="spinner" />
 }
 else
 {
-    <ProductForm @ref="productForm" Product="product" SelectedCategories="selectedCategories" NonSelectedCategories="nonSelectedCategories" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+    <ProductForm @ref="productForm" Product="product" NonSelectedCategories="nonSelectedCategories" OnValidSubmit="CreateAsync" ReturnAction="Return" />
 }
 
 @code {
-    private Product product = new();
+    private Product product = new Product
+        {
+            ProductCategories = new List<ProductCategory>(),
+            ProductImages = new List<ProductImage>()
+        };
+
     private ProductForm? productForm;
     private List<Category> selectedCategories = new();
     private List<Category> nonSelectedCategories = new();
