@@ -40,6 +40,6 @@ namespace Sales.Shared.Entities
         public int ProductImagesNumber => ProductImages == null ? 0 : ProductImages.Count;
 
         [Display(Name = "Imagén")]
-        public string MainImage => ProductImages == null ? string.Empty : ProductImages.FirstOrDefault()!.Image;
+        public string MainImage => ProductImages == null || ProductImages.Count == 0? string.Empty : ProductImages.FirstOrDefault()!.Image;
     }
 }

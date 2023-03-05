@@ -12,11 +12,11 @@ namespace Sales.API.Controllers
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("/api/categories")]
-    public class CategoiresController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public CategoiresController(DataContext context)
+        public CategoriesController(DataContext context)
         {
             _context = context;
         }

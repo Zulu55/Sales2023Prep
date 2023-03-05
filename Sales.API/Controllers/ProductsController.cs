@@ -23,7 +23,6 @@ namespace Sales.API.Controllers
             _fileStorage = fileStorage;
         }
 
-
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery] PaginationDTO pagination)
         {
