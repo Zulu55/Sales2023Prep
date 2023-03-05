@@ -7,8 +7,8 @@ using Sales.Shared.Responses;
 
 namespace Sales.API.Data
 {
-        public class SeedDb
-        {
+    public class SeedDb
+    {
         private readonly DataContext _context;
         private readonly IApiService _apiService;
         private readonly IUserHelper _userHelper;
