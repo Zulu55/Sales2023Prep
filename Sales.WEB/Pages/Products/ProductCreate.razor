@@ -1,0 +1,55 @@
+﻿@page "/products/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+@if(loading)
+{
+    <div class="spinner" />
+}
+else
+{
+    <ProductForm @ref="productForm" Product="product" SelectedCategories="selectedCategories" NonSelectedCategories="nonSelectedCategories" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+}
+
+@code {
+    private Product product = new();
+    private ProductForm? productForm;
+    private List<Category> selectedCategories = new();
+    private List<Category> nonSelectedCategories = new();
+    private bool loading = true;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var httpResponse = await repository.Get<List<Category>>("/api/categories");
+        loading = false;
+
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        nonSelectedCategories = httpResponse.Response!;
+    }
+
+    private async Task CreateAsync()
+    {
+        var httpResponse = await repository.Post("/api/products", product);
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        Return();
+    }
+
+    private void Return()
+    {
+        productForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo($"/products");
+    }
+}

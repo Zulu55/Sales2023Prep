@@ -1,0 +1,127 @@
+﻿@inject SweetAlertService sweetAlertService
+
+<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"></NavigationLock>
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="card">
+        <div class="card-header">
+            <span>
+                <i class="oi oi-star" /> Crear Nuevo Producto
+                <a class="btn btn-sm btn-success float-end" href="/products"><i class="oi oi-arrow-thick-left" /> Regresar</a>
+                <button class="btn btn-sm btn-primary float-end mx-2" type="submit"><i class="oi oi-check" /> Guardar Cambios</button>
+            </span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>Nombre:</label>
+                        <div>
+                            <InputText class="form-control" @bind-Value="@Product.Name" />
+                            <ValidationMessage For="@(() => Product.Name)" />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Descripción:</label>
+                        <div>
+                            <InputText class="form-control" @bind-Value="@Product.Description" />
+                            <ValidationMessage For="@(() => Product.Description)" />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Precio:</label>
+                        <div>
+                            <InputNumber class="form-control" @bind-Value="@Product.Price" />
+                            <ValidationMessage For="@(() => Product.Price)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>Inventario:</label>
+                        <div>
+                            <InputNumber class="form-control" @bind-Value="@Product.Stock" />
+                            <ValidationMessage For="@(() => Product.Stock)" />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Categorías:</label>
+                        <div>
+                            <MultipleSelector NonSelected="nonSelected" Selected="selected" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private EditContext editContext = null!;
+    private List<MultipleSelectorModel> selected { get; set; } = new();
+    private List<MultipleSelectorModel> nonSelected { get; set; } = new();
+
+    [EditorRequired]
+    [Parameter]
+    public Product Product { get; set; } = null!;
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback ReturnAction { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public List<Category> SelectedCategories { get; set; } = new();
+
+    [Parameter]
+    [EditorRequired]
+    public List<Category> NonSelectedCategories { get; set; } = new();
+
+    public bool FormPostedSuccessfully { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+        editContext = new(Product);
+
+        selected = SelectedCategories.Select(x => new MultipleSelectorModel(x.Id.ToString(), x.Name)).ToList();
+        nonSelected = NonSelectedCategories.Select(x => new MultipleSelectorModel(x.Id.ToString(), x.Name)).ToList();
+    }
+
+    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        var formWasEdited = editContext.IsModified();
+
+        if (!formWasEdited)
+        {
+            return;
+        }
+
+        if (FormPostedSuccessfully)
+        {
+            return;
+        }
+
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Deseas abandonar la página y perder los cambios?",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true
+            });
+
+        var confirm = !string.IsNullOrEmpty(result.Value);
+
+        if (confirm)
+        {
+            return;
+        }
+
+        context.PreventNavigation();
+    }
+}
