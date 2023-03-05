@@ -235,7 +235,7 @@
         }
 
         loading = false;
-        await sweetAlertService.FireAsync("Confirmación", "Su cuenta ha sido creada con éxito.Se le envío un correo, debes activar tu cuenta siguiendo las instrucciones del correo.", SweetAlertIcon.Info);
+        await sweetAlertService.FireAsync("Confirmación", "Su cuenta ha sido creada con éxito. Se te ha enviado un correo electrónico con las instrucciones para activar tu usuario.", SweetAlertIcon.Info);
         navigationManager.NavigateTo("/");
     }
 }
