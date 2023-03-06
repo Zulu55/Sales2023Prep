@@ -73,13 +73,34 @@ namespace Sales.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostAsync(Product product)
+        public async Task<ActionResult> PostAsync(ProductDTO productDTO)
         {
             try
             {
-                _context.Add(product);
+                Product newProduct = new()
+                {
+                    Name = productDTO.Name,
+                    Description = productDTO.Description,
+                    Price = productDTO.Price,
+                    Stock = productDTO.Stock,
+                    ProductCategories = new List<ProductCategory>(),
+                    ProductImages = new List<ProductImage>()
+                };
+
+                foreach (var productImage in productDTO.ProductImages!)
+                {
+                    var photoProduct = Convert.FromBase64String(productImage);
+                    newProduct.ProductImages.Add(new ProductImage { Image = await _fileStorage.SaveFileAsync(photoProduct, ".jpg", "products") });
+                }
+
+                foreach (var productCategoryId in productDTO.ProductCategoryIds!)
+                {
+                    newProduct.ProductCategories.Add(new ProductCategory { Category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == productCategoryId) });
+                }
+
+                _context.Add(newProduct);
                 await _context.SaveChangesAsync();
-                return Ok(product);
+                return Ok(productDTO);
             }
             catch (DbUpdateException dbUpdateException)
             {

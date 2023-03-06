@@ -19,29 +19,29 @@
                     <div class="mb-3">
                         <label>Nombre:</label>
                         <div>
-                            <InputText class="form-control" @bind-Value="@Product.Name" />
-                            <ValidationMessage For="@(() => Product.Name)" />
+                            <InputText class="form-control" @bind-Value="@ProductDTO.Name" />
+                            <ValidationMessage For="@(() => ProductDTO.Name)" />
                         </div>
                     </div>
                     <div class="mb-3">
                         <label>Descripción:</label>
                         <div>
-                            <InputText class="form-control" @bind-Value="@Product.Description" />
-                            <ValidationMessage For="@(() => Product.Description)" />
+                            <InputText class="form-control" @bind-Value="@ProductDTO.Description" />
+                            <ValidationMessage For="@(() => ProductDTO.Description)" />
                         </div>
                     </div>
                     <div class="mb-3">
                         <label>Precio:</label>
                         <div>
-                            <InputNumber class="form-control" @bind-Value="@Product.Price" />
-                            <ValidationMessage For="@(() => Product.Price)" />
+                            <InputNumber class="form-control" @bind-Value="@ProductDTO.Price" />
+                            <ValidationMessage For="@(() => ProductDTO.Price)" />
                         </div>
                     </div>
                     <div class="mb-3">
                         <label>Inventario:</label>
                         <div>
-                            <InputNumber class="form-control" @bind-Value="@Product.Stock" />
-                            <ValidationMessage For="@(() => Product.Stock)" />
+                            <InputNumber class="form-control" @bind-Value="@ProductDTO.Stock" />
+                            <ValidationMessage For="@(() => ProductDTO.Stock)" />
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
 
     [EditorRequired]
     [Parameter]
-    public Product Product { get; set; } = null!;
+    public ProductDTO ProductDTO { get; set; } = null!;
 
     [EditorRequired]
     [Parameter]
@@ -90,7 +90,7 @@
 
     protected override void OnInitialized()
     {
-        editContext = new(Product);
+        editContext = new(ProductDTO);
 
         selected = SelectedCategories.Select(x => new MultipleSelectorModel(x.Id.ToString(), x.Name)).ToList();
         nonSelected = NonSelectedCategories.Select(x => new MultipleSelectorModel(x.Id.ToString(), x.Name)).ToList();
@@ -98,13 +98,13 @@
 
     private void ImageSelected(string imagenBase64)
     {
-        Product.ProductImages!.Add(new ProductImage { Image = imagenBase64 });
+        ProductDTO.ProductImages!.Add(imagenBase64);
         imageUrl = null;
     }
 
     private async Task OnDataAnnotationsValidatedAsync()
     {
-        Product.ProductCategories = selected.Select(x => new ProductCategory { CategoryId = int.Parse(x.Key) }).ToList();
+        ProductDTO.ProductCategoryIds = selected.Select(x => int.Parse(x.Key)).ToList();
         await OnValidSubmit.InvokeAsync();
     }
 

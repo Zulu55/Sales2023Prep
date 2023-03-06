@@ -9,14 +9,14 @@
 }
 else
 {
-    <ProductForm @ref="productForm" Product="product" NonSelectedCategories="nonSelectedCategories" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+    <ProductForm @ref="productForm" ProductDTO="productDTO" NonSelectedCategories="nonSelectedCategories" OnValidSubmit="CreateAsync" ReturnAction="Return" />
 }
 
 @code {
-    private Product product = new Product
+    private ProductDTO productDTO = new ProductDTO
         {
-            ProductCategories = new List<ProductCategory>(),
-            ProductImages = new List<ProductImage>()
+            ProductCategoryIds = new List<int>(),
+            ProductImages = new List<string>()
         };
 
     private ProductForm? productForm;
@@ -41,7 +41,7 @@ else
 
     private async Task CreateAsync()
     {
-        var httpResponse = await repository.Post("/api/products", product);
+        var httpResponse = await repository.Post("/api/products", productDTO);
         if (httpResponse.Error)
         {
             var message = await httpResponse.GetErrorMessage();
