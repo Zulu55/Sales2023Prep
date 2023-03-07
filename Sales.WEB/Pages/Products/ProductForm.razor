@@ -61,11 +61,22 @@
     </div>
 </EditForm>
 
+@if (IsEdit && Images is not null)
+{
+    <CarouselView Images="Images" />
+}
+
 @code {
     private EditContext editContext = null!;
     private List<MultipleSelectorModel> selected { get; set; } = new();
     private List<MultipleSelectorModel> nonSelected { get; set; } = new();
     private string? imageUrl;
+
+    [Parameter]
+    public List<string>? Images { get; set; }
+
+    [Parameter]
+    public bool IsEdit { get; set; } = false;
 
     [EditorRequired]
     [Parameter]

@@ -44,7 +44,7 @@ else
                                 <th>Categorías</th>
                                 <th>Imagenes</th>
                                 <th>Imagen Principal</th>
-                                <th style="width:310px"></th>
+                                <th style="width:200px"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,7 +73,6 @@ else
                                         <img src="@product.MainImage" style="width:100px;"/>
                                     </td>
                                     <td>
-                                        <a href="/products/details/@product.Id" class="btn btn-info"><i class="oi oi-list" /> Detalles</a>
                                         <a href="/products/edit/@product.Id" class="btn btn-warning"><i class="oi oi-pencil" /> Editar</a>
                                         <button class="btn btn-danger" @onclick=@(() => Delete(product.Id))><i class="oi oi-trash" /> Borrar</button>
                                     </td>

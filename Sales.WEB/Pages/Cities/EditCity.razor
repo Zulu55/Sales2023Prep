@@ -8,13 +8,12 @@
 
 @if (city is null)
 {
-    <p>Cargando...</p>
+    <div class="spinner" />
 }
 else
 {
     <CityForm @ref="cityForm" City="city" OnValidSubmit="Edit" ReturnAction="Return" />
 }
-
 
 @code {
     private City? city;
