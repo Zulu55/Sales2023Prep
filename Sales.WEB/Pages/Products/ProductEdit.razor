@@ -10,7 +10,7 @@
 }
 else
 {
-    <ProductForm @ref="productForm" ProductDTO="productDTO" SelectedCategories="selectedCategories" NonSelectedCategories="nonSelectedCategories" OnValidSubmit="SaveChangesAsync" ReturnAction="Return" IsEdit=true Images="images" />
+    <ProductForm @ref="productForm" ProductDTO="productDTO" SelectedCategories="selectedCategories" NonSelectedCategories="nonSelectedCategories" OnValidSubmit="SaveChangesAsync" ReturnAction="Return" IsEdit=true AddImageAction="AddImageAsync" RemoveImageAction="RemoveImageAsyc"/>
 }
 
 @code {
@@ -25,7 +25,6 @@ else
     private List<Category> nonSelectedCategories = new();
     private bool loading = true;
     private Product? product;
-    private List<string>? images;
 
     [Parameter]
     public int ProductId { get; set; }
@@ -34,6 +33,70 @@ else
     {
         await LoadProductAsync();
         await LoadCategoriesAsync();
+    }
+
+    private async Task AddImageAsync()
+    {
+        if (productDTO.ProductImages is null || productDTO.ProductImages.Count == 0)
+        {
+            return;
+        }
+
+        var imageDTO = new ImageDTO
+        {
+            ProductId = ProductId,
+            Images = productDTO.ProductImages!
+        };
+
+        var httpResponse = await repository.Post<ImageDTO, ImageDTO>("/api/products/addImages", imageDTO);
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        productDTO.ProductImages = httpResponse.Response!.Images;
+        var toast = sweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.TopEnd,
+                ShowConfirmButton = false,
+                Timer = 5000
+            });
+        await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Imagenes agregadas con éxito.");
+    }
+
+    private async Task RemoveImageAsyc()
+    {
+        if (productDTO.ProductImages is null || productDTO.ProductImages.Count == 0)
+        {
+            return;
+        }
+
+        var imageDTO = new ImageDTO
+            {
+                ProductId = ProductId,
+                Images = productDTO.ProductImages!
+            };
+
+        var httpResponse = await repository.Post<ImageDTO, ImageDTO>("/api/products/removeLastImage", imageDTO);
+        if (httpResponse.Error)
+        {
+            var message = await httpResponse.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+
+        productDTO.ProductImages = httpResponse.Response!.Images;
+        var toast = sweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.TopEnd,
+                ShowConfirmButton = false,
+                Timer = 5000
+            });
+        await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Imagén eliminada con éxito.");
     }
 
     private async Task LoadProductAsync()
@@ -50,7 +113,6 @@ else
         }
 
         product = httpResponse.Response!;
-        images = product.ProductImages!.Select(x => x.Image).ToList();
         productDTO = ToProductDTO(product);
         loading = false;
     }

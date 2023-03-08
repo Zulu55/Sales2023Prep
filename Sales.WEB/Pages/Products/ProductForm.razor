@@ -55,15 +55,22 @@
                     <div class="mb-3">
                         <InputImg Label="Foto" ImageSelected="ImageSelected" ImageURL="@imageUrl" />
                     </div>
+                    @if (IsEdit)
+                    {
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-outline-primary" @onclick="AddImageAction"><i class="oi oi-plus" /> Agregar Imagenes</button>
+                            <button type="button" class="btn btn-outline-danger" @onclick="RemoveImageAction"><i class="oi oi-trash" /> Eliminar Última Imagén</button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </EditForm>
 
-@if (IsEdit && Images is not null)
+@if (IsEdit && ProductDTO.ProductImages is not null)
 {
-    <CarouselView Images="Images" />
+    <CarouselView Images="ProductDTO.ProductImages" />
 }
 
 @code {
@@ -71,9 +78,6 @@
     private List<MultipleSelectorModel> selected { get; set; } = new();
     private List<MultipleSelectorModel> nonSelected { get; set; } = new();
     private string? imageUrl;
-
-    [Parameter]
-    public List<string>? Images { get; set; }
 
     [Parameter]
     public bool IsEdit { get; set; } = false;
@@ -89,6 +93,12 @@
     [EditorRequired]
     [Parameter]
     public EventCallback ReturnAction { get; set; }
+
+    [Parameter]
+    public EventCallback AddImageAction { get; set; }
+
+    [Parameter]
+    public EventCallback RemoveImageAction { get; set; }
 
     [Parameter]
     public List<Category> SelectedCategories { get; set; } = new();
@@ -109,6 +119,11 @@
 
     private void ImageSelected(string imagenBase64)
     {
+        if (ProductDTO.ProductImages is null)
+        {
+            ProductDTO.ProductImages = new List<string>();
+        }
+
         ProductDTO.ProductImages!.Add(imagenBase64);
         imageUrl = null;
     }

@@ -26,9 +26,15 @@
 </div>
 
 @code {
-    [Parameter] public string Label { get; set; } = "Imagen";
-    [Parameter] public string? ImageURL { get; set; }
-    [Parameter] public EventCallback<string> ImageSelected { get; set; }
+    [Parameter]
+    public string Label { get; set; } = "Imagen";
+
+    [Parameter] 
+    public string? ImageURL { get; set; }
+
+    [Parameter] 
+    public EventCallback<string> ImageSelected { get; set; }
+
     private string? imageBase64;
 
     async Task OnChange(InputFileChangeEventArgs e)
