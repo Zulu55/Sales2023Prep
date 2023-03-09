@@ -1,12 +1,14 @@
-﻿<AuthorizeView>
+﻿@inject IRepository repository
+
+<AuthorizeView>
     <Authorized>
         Hola, <a href="EditUser" class="nav-link btn btn-link">@context.User.Identity!.Name</a>
-            @if (!string.IsNullOrEmpty(photoUser))
-            {
-                <div class="mx-2">
-                    <img src="@photoUser" width="50" height="50" style="border-radius:50%" />
-                </div>
-            }
+        @if (!string.IsNullOrEmpty(photoUser))
+        {
+            <div class="mx-2">
+                <img src="@photoUser" width="50" height="50" style="border-radius:50%" />
+            </div>
+        }
         <a href="Logout" class="nav-link btn btn-link">Cerrar Sesión</a>
     </Authorized>
     <NotAuthorized>
@@ -21,7 +23,8 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; } = null!;
 
-    protected async override Task OnParametersSetAsync()
+
+    private async Task LoadUserAsync()
     {
         var authenticationState = await authenticationStateTask;
         var claims = authenticationState.User.Claims.ToList();
@@ -30,5 +33,10 @@
         {
             photoUser = photoClaim.Value;
         }
+    }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        await LoadUserAsync();
     }
 }

@@ -68,5 +68,13 @@ namespace Sales.API.Controllers
                 .Where(x => x.User!.Email == User.Identity!.Name)
                 .ToListAsync());
         }
+
+        [HttpGet("count")]
+        public async Task<ActionResult> GetCount()
+        {
+            return Ok(await _context.TemporalSales
+                .Where(x => x.User!.Email == User.Identity!.Name)
+                .SumAsync(x => x.Quantity));
+        }
     }
 }
