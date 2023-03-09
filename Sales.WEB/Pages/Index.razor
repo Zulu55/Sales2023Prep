@@ -30,14 +30,14 @@ else
             <button type="button" class="btn btn-outline-primary" @onclick="ApplyFilterAsync"><i class="oi oi-layers" /> Filtrar</button>
             <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync"><i class="oi oi-ban" /> Limpiar</button>
         </div>
-        @if (counter > 0)
-        {
-            <AuthorizeView>
-                <Authorized>
+        <AuthorizeView>
+            <Authorized>
+                @if (counter > 0)
+                {
                     <a href="/ShowCart" class="btn btn-primary">Ver Carro de Compras (@counter)</a>
-                </Authorized>
-            </AuthorizeView>
-        }
+                }
+            </Authorized>
+        </AuthorizeView>
     </div>
 
     <Pagination CurrentPage="currentPage"
@@ -71,6 +71,7 @@ else
     private int currentPage = 1;
     private int totalPages;
     private int counter = 0;
+    private bool isAuthenticated;
 
     public List<Product>? Products { get; set; }
 
@@ -92,11 +93,23 @@ else
 
     protected async override Task OnParametersSetAsync()
     {
+        await CheckIsAuthenticatedAsync();
         await LoadCounterAsync();
+    }
+
+    private async Task CheckIsAuthenticatedAsync()
+    {
+        var authenticationState = await authenticationStateTask;
+        isAuthenticated = authenticationState.User.Identity!.IsAuthenticated;
     }
 
     private async Task LoadCounterAsync()
     {
+        if (!isAuthenticated)
+        {
+            return;
+        }
+
         var responseHttp = await repository.Get<int>("/api/temporalSales/count");
         if (responseHttp.Error)
         {
@@ -160,8 +173,6 @@ else
 
     private async Task AddToCartAsync(int productId)
     {
-        var authenticationState = await authenticationStateTask;
-        var isAuthenticated = authenticationState.User.Identity!.IsAuthenticated;
         if (!isAuthenticated)
         {
             navigationManager.NavigateTo("/Login");
@@ -177,9 +188,9 @@ else
         }
 
         var temporalSaleDTO = new TemporalSaleDTO
-        {
-            ProductId = productId
-        };
+            {
+                ProductId = productId
+            };
 
         var httpResponse = await repository.Post("/api/temporalSales", temporalSaleDTO);
         if (httpResponse.Error)
@@ -192,12 +203,12 @@ else
         await LoadCounterAsync();
 
         var toast2 = sweetAlertService.Mixin(new SweetAlertOptions
-        {
-            Toast = true,
-            Position = SweetAlertPosition.TopEnd,
-            ShowConfirmButton = false,
-            Timer = 5000
-        });
+            {
+                Toast = true,
+                Position = SweetAlertPosition.TopEnd,
+                ShowConfirmButton = false,
+                Timer = 5000
+            });
         await toast2.FireAsync(icon: SweetAlertIcon.Success, message: "Producto agregado al carro de compras.");
     }
 }
