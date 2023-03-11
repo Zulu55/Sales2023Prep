@@ -1,7 +1,7 @@
 ﻿@page "/states/details/{Id:int}"
 @inject IRepository repository
 @inject NavigationManager navigationManager
-@inject SweetAlertService swal
+@inject SweetAlertService sweetAlertService
 @attribute [Authorize(Roles = "Admin")]
 
 @if (state is null)
@@ -121,7 +121,7 @@ else
 
     private async Task Delete(City city)
     {
-        var result = await swal.FireAsync(new SweetAlertOptions
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
                 Text = "¿Esta seguro que quieres borrar el registro?",
@@ -147,7 +147,7 @@ else
             else
             {
                 var mensajeError = await responseHTTP.GetErrorMessage();
-                await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+                await sweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
             }
         }
         else

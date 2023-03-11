@@ -1,4 +1,4 @@
-﻿@inject SweetAlertService swal
+﻿@inject SweetAlertService sweetAlertService
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"></NavigationLock>
 
@@ -52,7 +52,7 @@
             return;
         }
 
-        var result = await swal.FireAsync(new SweetAlertOptions
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
         {
             Title = "Confirmación",
             Text = "¿Deseas abandonar la página y perder los cambios?",

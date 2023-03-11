@@ -1,7 +1,7 @@
 ﻿@page "/categories"
 @inject IRepository repository
 @inject NavigationManager navigationManager
-@inject SweetAlertService swal
+@inject SweetAlertService sweetAlertService
 @attribute [Authorize(Roles = "Admin")]
 
 @if (categories is null)
@@ -116,13 +116,13 @@ else
         }
         catch (Exception ex)
         {
-            await swal.FireAsync("Error", ex.Message, SweetAlertIcon.Error);
+            await sweetAlertService.FireAsync("Error", ex.Message, SweetAlertIcon.Error);
         }
     }
 
     private async Task Delete(int categoryId)
     {
-        var result = await swal.FireAsync(new SweetAlertOptions
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
                 Text = "¿Esta seguro que quieres borrar el registro?",
@@ -148,7 +148,7 @@ else
             else
             {
                 var mensajeError = await responseHTTP.GetErrorMessage();
-                await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+                await sweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
             }
         }
         else

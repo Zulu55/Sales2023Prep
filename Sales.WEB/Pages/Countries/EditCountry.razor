@@ -1,7 +1,7 @@
 ﻿@page "/countries/edit/{Id:int}"
 @inject NavigationManager navigationManager
 @inject IRepository repository
-@inject SweetAlertService swal
+@inject SweetAlertService sweetAlertService
 @attribute [Authorize(Roles = "Admin")]
 
 <h3>Editar País</h3>
@@ -36,7 +36,7 @@ else
             else
             {
                 var messageError = await responseHTTP.GetErrorMessage();
-                await swal.FireAsync("Error", messageError, SweetAlertIcon.Error);
+                await sweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
             }
         }
         else
@@ -52,7 +52,7 @@ else
         if (responseHTTP.Error)
         {
             var mensajeError = await responseHTTP.GetErrorMessage();
-            await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+            await sweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
         }
         else
         {
