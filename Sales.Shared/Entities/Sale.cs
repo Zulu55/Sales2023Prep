@@ -22,7 +22,7 @@ namespace Sales.Shared.Entities
 
         public OrderStatus OrderStatus { get; set; }
 
-        public ICollection<SaleDetail> SaleDetails { get; set; }
+        public ICollection<SaleDetail>? SaleDetails { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N0}")]
         [Display(Name = "Líneas")]
