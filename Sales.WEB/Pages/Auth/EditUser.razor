@@ -4,7 +4,7 @@
 @inject NavigationManager navigationManager
 @inject ILoginService loginService
 
-@if (user is null || loading)
+@if (user is null)
 {
     <div class="spinner" />
 }
@@ -122,7 +122,6 @@ else
     private List<Country>? countries;
     private List<State>? states;
     private List<City>? cities;
-    private bool loading;
     private string? imageUrl;
 
     [CascadingParameter]
@@ -130,7 +129,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        loading = true;
         await LoadUserAsyc();
         await LoadCountriesAsync();
         await LoadStatesAsyn(user!.City!.State!.Country!.Id);
@@ -141,8 +139,6 @@ else
             imageUrl = user.Photo;
             user.Photo = null;
         }
-
-        loading = false;
     }
 
     private async Task LoadUserAsyc()
@@ -183,65 +179,53 @@ else
 
     private async Task LoadCountriesAsync()
     {
-        loading = true;
         var responseHttp = await repository.Get<List<Country>>("/api/countries/combo");
         if (responseHttp.Error)
         {
-            loading = false;
             var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
 
         countries = responseHttp.Response;
-        loading = false;
     }
 
     private async Task LoadStatesAsyn(int countryId)
     {
-        loading = true;
         var responseHttp = await repository.Get<List<State>>($"/api/states/combo/{countryId}");
         if (responseHttp.Error)
         {
-            loading = false;
             var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
 
         states = responseHttp.Response;
-        loading = false;
     }
 
     private async Task LoadCitiesAsyn(int stateId)
     {
-        loading = true;
         var responseHttp = await repository.Get<List<City>>($"/api/cities/combo/{stateId}");
         if (responseHttp.Error)
         {
-            loading = false;
             var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
 
         cities = responseHttp.Response;
-        loading = false;
     }
 
     private async Task SaveUserAsync()
     {
-        loading = true;
         var responseHttp = await repository.Put<User>("/api/accounts", user!);
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-            loading = false;
             return;
         }
 
-        loading = false;
         navigationManager.NavigateTo("/");
     }
 }

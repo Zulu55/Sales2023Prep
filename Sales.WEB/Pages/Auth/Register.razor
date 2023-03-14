@@ -4,11 +4,6 @@
 @inject NavigationManager navigationManager
 @inject ILoginService loginService
 
-@if(loading)
-{
-    <div class="spinner" />
-}
-
 <EditForm Model="userDTO" OnValidSubmit="CreteUserAsync">
     <DataAnnotationsValidator />
 
@@ -140,7 +135,6 @@
     private List<Country>? countries;
     private List<State>? states;
     private List<City>? cities;
-    private bool loading;
     private string? imageUrl;
 
     protected override async Task OnInitializedAsync()
@@ -174,55 +168,45 @@
 
     private async Task LoadCountriesAsync()
     {
-        loading = true;
         var responseHttp = await repository.Get<List<Country>>("/api/countries/combo");
         if (responseHttp.Error)
         {
-            loading = false;
             var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
 
         countries = responseHttp.Response;
-        loading = false;
     }
 
     private async Task LoadStatesAsyn(int countryId)
     {
-        loading = true;
         var responseHttp = await repository.Get<List<State>>($"/api/states/combo/{countryId}");
         if (responseHttp.Error)
         {
-            loading = false;
             var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
 
         states = responseHttp.Response;
-        loading = false;
     }
 
     private async Task LoadCitiesAsyn(int stateId)
     {
-        loading = true;
         var responseHttp = await repository.Get<List<City>>($"/api/cities/combo/{stateId}");
         if (responseHttp.Error)
         {
-            loading = false;
             var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
 
         cities = responseHttp.Response;
-        loading = false;
     }
 
     private async Task CreteUserAsync()
     {
-        loading = true;
         userDTO.UserName = userDTO.Email;
         userDTO.UserType = UserType.User;
         var responseHttp = await repository.Post<UserDTO>("/api/accounts/CreateUser", userDTO);
@@ -230,11 +214,9 @@
         {
             var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-            loading = false;
             return;
         }
 
-        loading = false;
         await sweetAlertService.FireAsync("Confirmación", "Su cuenta ha sido creada con éxito. Se te ha enviado un correo electrónico con las instrucciones para activar tu usuario.", SweetAlertIcon.Info);
         navigationManager.NavigateTo("/");
     }
