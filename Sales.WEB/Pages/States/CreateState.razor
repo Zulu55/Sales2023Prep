@@ -28,7 +28,7 @@
             }
             else
             {
-                var messageError = await responseHTTP.GetErrorMessage();
+                var messageError = await responseHTTP.GetErrorMessageAsync();
                 await sweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
             }
         }
@@ -47,7 +47,7 @@
 
         if (httpResponse.Error)
         {
-            var mensajeError = await httpResponse.GetErrorMessage();
+            var mensajeError = await httpResponse.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
         }
         else

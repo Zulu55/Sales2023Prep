@@ -152,7 +152,7 @@ else
                 navigationManager.NavigateTo("countries");
                 return;
             }
-            var messageError = await responseHTTP.GetErrorMessage();
+            var messageError = await responseHTTP.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
             return;
         }
@@ -182,7 +182,7 @@ else
         var responseHttp = await repository.Get<List<Country>>("/api/countries/combo");
         if (responseHttp.Error)
         {
-            var message = await responseHttp.GetErrorMessage();
+            var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -195,7 +195,7 @@ else
         var responseHttp = await repository.Get<List<State>>($"/api/states/combo/{countryId}");
         if (responseHttp.Error)
         {
-            var message = await responseHttp.GetErrorMessage();
+            var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -208,7 +208,7 @@ else
         var responseHttp = await repository.Get<List<City>>($"/api/cities/combo/{stateId}");
         if (responseHttp.Error)
         {
-            var message = await responseHttp.GetErrorMessage();
+            var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -221,7 +221,7 @@ else
         var responseHttp = await repository.Put<User>("/api/accounts", user!);
         if (responseHttp.Error)
         {
-            var message = await responseHttp.GetErrorMessage();
+            var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }

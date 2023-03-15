@@ -26,7 +26,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         var responseHTTP = await repository.Get<Country>($"api/countries/{Id}");
-
         if (responseHTTP.Error)
         {
             if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -35,7 +34,7 @@ else
             }
             else
             {
-                var messageError = await responseHTTP.GetErrorMessage();
+                var messageError = await responseHTTP.GetErrorMessageAsync();
                 await sweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
             }
         }
@@ -51,7 +50,7 @@ else
 
         if (responseHTTP.Error)
         {
-            var mensajeError = await responseHTTP.GetErrorMessage();
+            var mensajeError = await responseHTTP.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
         }
         else

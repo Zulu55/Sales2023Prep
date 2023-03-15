@@ -42,7 +42,7 @@
         var responseHttp = await repository.Post("/api/accounts/ResedToken", emailDTO);
         if (responseHttp.Error)
         {
-            var message = await responseHttp.GetErrorMessage();
+            var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             loading = false;
             return;

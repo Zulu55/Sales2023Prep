@@ -25,6 +25,27 @@ namespace Sales.API.Controllers
             _userHelper = userHelper;
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult> Get(int id)
+        {
+            var sale = await _context.Sales
+                .Include(s => s.User!)
+                .ThenInclude(u => u.City)
+                .ThenInclude(c => c.State)
+                .ThenInclude(s => s.Country)
+                .Include(s => s.SaleDetails!)
+                .ThenInclude(sd => sd.Product)
+                .ThenInclude(p => p.ProductImages)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (sale is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(sale);
+        }
+
+
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery] PaginationDTO pagination)
         {
@@ -35,8 +56,8 @@ namespace Sales.API.Controllers
             }
 
             var queryable = _context.Sales
-                .Include(s => s.User)
-                .Include(s => s.SaleDetails)
+                .Include(s => s.User!)
+                .Include(s => s.SaleDetails!)
                 .ThenInclude(sd => sd.Product)
                 .AsQueryable();
 

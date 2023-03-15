@@ -171,7 +171,7 @@
         var responseHttp = await repository.Get<List<Country>>("/api/countries/combo");
         if (responseHttp.Error)
         {
-            var message = await responseHttp.GetErrorMessage();
+            var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -184,7 +184,7 @@
         var responseHttp = await repository.Get<List<State>>($"/api/states/combo/{countryId}");
         if (responseHttp.Error)
         {
-            var message = await responseHttp.GetErrorMessage();
+            var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -197,7 +197,7 @@
         var responseHttp = await repository.Get<List<City>>($"/api/cities/combo/{stateId}");
         if (responseHttp.Error)
         {
-            var message = await responseHttp.GetErrorMessage();
+            var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -212,7 +212,7 @@
         var responseHttp = await repository.Post<UserDTO>("/api/accounts/CreateUser", userDTO);
         if (responseHttp.Error)
         {
-            var message = await responseHttp.GetErrorMessage();
+            var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }

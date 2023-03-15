@@ -20,7 +20,7 @@
         var httpResponse = await repository.Post("/api/categories", category);
         if (httpResponse.Error)
         {
-            var message = await httpResponse.GetErrorMessage();
+            var message = await httpResponse.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }

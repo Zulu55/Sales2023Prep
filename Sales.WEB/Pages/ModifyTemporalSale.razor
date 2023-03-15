@@ -103,7 +103,7 @@ else
         if (httpResponse.Error)
         {
             loading = false;
-            var message = await httpResponse.GetErrorMessage();
+            var message = await httpResponse.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -127,7 +127,7 @@ else
         var httpResponse = await repository.Put("/api/temporalSales", temporalSaleDTO);
         if (httpResponse.Error)
         {
-            var message = await httpResponse.GetErrorMessage();
+            var message = await httpResponse.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }

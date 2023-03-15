@@ -51,7 +51,7 @@ else
         var httpResponse = await repository.Post<ImageDTO, ImageDTO>("/api/products/addImages", imageDTO);
         if (httpResponse.Error)
         {
-            var message = await httpResponse.GetErrorMessage();
+            var message = await httpResponse.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -83,7 +83,7 @@ else
         var httpResponse = await repository.Post<ImageDTO, ImageDTO>("/api/products/removeLastImage", imageDTO);
         if (httpResponse.Error)
         {
-            var message = await httpResponse.GetErrorMessage();
+            var message = await httpResponse.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -107,7 +107,7 @@ else
         if (httpResponse.Error)
         {
             loading = false;
-            var message = await httpResponse.GetErrorMessage();
+            var message = await httpResponse.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -139,7 +139,7 @@ else
         if (httpResponse.Error)
         {
             loading = false;
-            var message = await httpResponse.GetErrorMessage();
+            var message = await httpResponse.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -165,7 +165,7 @@ else
         var httpResponse = await repository.Put("/api/products", productDTO);
         if (httpResponse.Error)
         {
-            var message = await httpResponse.GetErrorMessage();
+            var message = await httpResponse.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }

@@ -136,7 +136,7 @@ else
         var httpResponse = await repository.Post("/api/sales", SaleDTO);
         if (httpResponse.Error)
         {
-            var message = await httpResponse.GetErrorMessage();
+            var message = await httpResponse.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -171,7 +171,7 @@ else
                 return;
             }
 
-            var mensajeError = await responseHTTP.GetErrorMessage();
+            var mensajeError = await responseHTTP.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
             return;
         }

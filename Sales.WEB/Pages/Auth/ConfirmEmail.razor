@@ -24,7 +24,7 @@
         var responseHttp = await repository.Get($"/api/accounts/ConfirmEmail/?userId={UserId}&token={Token}");
         if (responseHttp.Error)
         {
-            message = await responseHttp.GetErrorMessage();
+            message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             navigationManager.NavigateTo("/");
         }

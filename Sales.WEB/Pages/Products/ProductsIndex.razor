@@ -172,7 +172,7 @@ else
                 return;
             }
 
-            var mensajeError = await responseHTTP.GetErrorMessage();
+            var mensajeError = await responseHTTP.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
             return;
         }

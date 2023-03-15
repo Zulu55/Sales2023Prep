@@ -1,0 +1,136 @@
+﻿@page "/saleDetails/{SaleId:int}"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+@attribute [Authorize(Roles = "Admin, User")]
+
+@if (sale is null)
+{
+    <div class="spinner" />
+}
+else
+{
+    <GenericList MyList="sale.SaleDetails!.ToList()">
+        <RecordsComplete>
+            <div class="card">
+                <div class="card-header">
+                    <span>
+                        <i class="oi oi-dollar"></i> @sale.User!.FullName
+                        <button class="btn btn-sm btn-danger float-end mx-2" @onclick=@(() => CancelSaleAsync())><i class="oi oi-trash" /> Cancelar</button>
+                        <button class="btn btn-sm btn-dark float-end mx-2" @onclick=@(() => ConfirmSaleAsync())><i class="oi oi-thumb-up" /> Confirmar</button>
+                        <button class="btn btn-sm btn-warning float-end mx-2" @onclick=@(() => SendSaleAsync())><i class="oi oi-location" /> Enviar</button>
+                        <button class="btn btn-sm btn-primary float-end mx-2" @onclick=@(() => DispatchSaleAsync())><i class="oi oi-external-link" /> Despachar</button>
+                        <a class="btn btn-sm btn-success float-end" href="/sales"><i class="oi oi-arrow-thick-left" /> Regresar</a>
+                    </span>
+                </div>
+                <div class="row mx-2 my-2">
+                    <div class="col-1">
+                        <p>Cliente</p>
+                        <p>Documento</p>
+                        <p>Dirección</p>
+                        <p>Teléfono</p>
+                        <p>Email</p>
+                    </div>
+                    <div class="col-5">
+                        <p><strong>@sale.User.FullName</strong></p>
+                        <p><strong>@sale.User.Document</strong></p>
+                        <p><strong>@sale.User.Address, @sale.User.City!.Name, @sale.User.City.State!.Name, @sale.User.City.State.Country!.Name</strong></p>
+                        <p><strong>@sale.User.PhoneNumber</strong></p>
+                        <p><strong>@sale.User.UserName</strong></p>
+                    </div>
+                    <div class="col-1">
+                        <p>Fecha</p>
+                        <p>Comentarios</p>
+                        <p>Líneas</p>
+                        <p>Cantidad</p>
+                        <p>Valor</p>
+                    </div>
+                    <div class="col-5">
+                        <p><strong>@($"{sale.Date:yyyy/MM/dd hh:mm tt}")</strong></p>
+                        <p><strong>@sale.Remarks</strong></p>
+                        <p><strong>@sale.Lines</strong></p>
+                        <p><strong>@($"{sale.Quantity:N2}")</strong></p>
+                        <p><strong>@($"{sale.Value:C2}")</strong></p>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Imagen</th>
+                                <th>Comentarios</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var saleDetail in sale.SaleDetails!)
+                            {
+                                <tr>
+                                    <td>@saleDetail.Product!.Name</td>
+                                    <td><img src="@saleDetail.Product!.MainImage" style="width:100px;" /></td>
+                                    <td>@saleDetail.Remarks</td>
+                                    <td>@($"{saleDetail.Quantity:N2}")</td>
+                                    <td>@($"{saleDetail.Product!.Price:C2}")</td>
+                                    <td>@($"{saleDetail.Value:C2}")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </RecordsComplete>
+    </GenericList>
+}
+
+@code {
+    private Sale? sale;
+
+    [Parameter]
+    public int SaleId { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        var responseHppt = await repository.Get<Sale>($"api/sales/{SaleId}");
+        if (responseHppt.Error)
+        {
+            if (responseHppt.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/sales");
+                return;
+            }
+            var messageError = await responseHppt.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
+            return;
+        }
+        sale = responseHppt.Response;
+    }
+
+    private void CancelSaleAsync()
+    {
+
+    }
+
+    private void DispatchSaleAsync()
+    {
+        
+    }
+
+    private void SendSaleAsync()
+    {
+        
+    }
+
+    private void ConfirmSaleAsync()
+    {
+
+    }
+}
