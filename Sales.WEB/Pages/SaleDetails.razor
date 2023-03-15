@@ -16,36 +16,47 @@ else
                 <div class="card-header">
                     <span>
                         <i class="oi oi-dollar"></i> @sale.User!.FullName
-                        <button class="btn btn-sm btn-danger float-end mx-2" @onclick=@(() => CancelSaleAsync())><i class="oi oi-trash" /> Cancelar</button>
-                        <button class="btn btn-sm btn-dark float-end mx-2" @onclick=@(() => ConfirmSaleAsync())><i class="oi oi-thumb-up" /> Confirmar</button>
-                        <button class="btn btn-sm btn-warning float-end mx-2" @onclick=@(() => SendSaleAsync())><i class="oi oi-location" /> Enviar</button>
-                        <button class="btn btn-sm btn-primary float-end mx-2" @onclick=@(() => DispatchSaleAsync())><i class="oi oi-external-link" /> Despachar</button>
+                        @if (sale.OrderStatus == OrderStatus.Nuevo)
+                        {
+                            <button class="btn btn-sm btn-danger float-end mx-2" @onclick=@(() => CancelSaleAsync())><i class="oi oi-trash" /> Cancelar</button>
+                            <button class="btn btn-sm btn-primary float-end mx-2" @onclick=@(() => DispatchSaleAsync())><i class="oi oi-external-link" /> Despachar</button>
+                        } 
+                        else if (sale.OrderStatus == OrderStatus.Despachado)
+                        {
+                            <button class="btn btn-sm btn-warning float-end mx-2" @onclick=@(() => SendSaleAsync())><i class="oi oi-location" /> Enviar</button>
+                        } 
+                        else if (sale.OrderStatus == OrderStatus.Enviado)
+                        {
+                            <button class="btn btn-sm btn-dark float-end mx-2" @onclick=@(() => ConfirmSaleAsync())><i class="oi oi-thumb-up" /> Confirmar</button>
+                        }
                         <a class="btn btn-sm btn-success float-end" href="/sales"><i class="oi oi-arrow-thick-left" /> Regresar</a>
                     </span>
                 </div>
                 <div class="row mx-2 my-2">
-                    <div class="col-1">
+                    <div class="col-2">
                         <p>Cliente</p>
                         <p>Documento</p>
-                        <p>Dirección</p>
                         <p>Teléfono</p>
                         <p>Email</p>
+                        <p>Dirección</p>
                     </div>
-                    <div class="col-5">
+                    <div class="col-4">
                         <p><strong>@sale.User.FullName</strong></p>
                         <p><strong>@sale.User.Document</strong></p>
-                        <p><strong>@sale.User.Address, @sale.User.City!.Name, @sale.User.City.State!.Name, @sale.User.City.State.Country!.Name</strong></p>
                         <p><strong>@sale.User.PhoneNumber</strong></p>
                         <p><strong>@sale.User.UserName</strong></p>
+                        <p><strong>@sale.User.Address, @sale.User.City!.Name, @sale.User.City.State!.Name, @sale.User.City.State.Country!.Name</strong></p>
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
+                        <p>Estado</p>
                         <p>Fecha</p>
                         <p>Comentarios</p>
                         <p>Líneas</p>
                         <p>Cantidad</p>
                         <p>Valor</p>
                     </div>
-                    <div class="col-5">
+                    <div class="col-4">
+                        <p><strong>@sale.OrderStatus</strong></p>
                         <p><strong>@($"{sale.Date:yyyy/MM/dd hh:mm tt}")</strong></p>
                         <p><strong>@sale.Remarks</strong></p>
                         <p><strong>@sale.Lines</strong></p>
