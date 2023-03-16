@@ -2,7 +2,7 @@
 @inject IRepository repository
 @inject NavigationManager navigationManager
 @inject SweetAlertService sweetAlertService
-@attribute [Authorize(Roles = "Admin, User")]
+@attribute [Authorize(Roles = "Admin")]
 
 @if (sale is null)
 {
@@ -125,23 +125,56 @@ else
         sale = responseHppt.Response;
     }
 
-    private void CancelSaleAsync()
+    private async Task CancelSaleAsync()
     {
-
+        await ModifyTemporalSale("cancelar", OrderStatus.Cancelado);
     }
 
-    private void DispatchSaleAsync()
+    private async Task DispatchSaleAsync()
     {
-        
+        await ModifyTemporalSale("despachar", OrderStatus.Despachado);
     }
 
-    private void SendSaleAsync()
+    private async Task SendSaleAsync()
     {
-        
+        await ModifyTemporalSale("enviar", OrderStatus.Enviado);
     }
 
-    private void ConfirmSaleAsync()
+    private async Task ConfirmSaleAsync()
     {
+        await ModifyTemporalSale("confirmar", OrderStatus.Confirmado);
+    }
 
+    private async Task ModifyTemporalSale(string message, OrderStatus status)
+    {
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = $"¿Esta seguro que quieres {message} el pedido?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true
+            });
+
+        var confirm = string.IsNullOrEmpty(result.Value);
+        if (confirm)
+        {
+            return;
+        }
+
+        var saleDTO = new SaleDTO
+            {
+                Id = SaleId,
+                OrderStatus = status
+            };
+
+        var responseHTTP = await repository.Put("api/sales", saleDTO);
+        if (responseHTTP.Error)
+        {
+            var mensajeError = await responseHTTP.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+            return;
+        }
+
+        navigationManager.NavigateTo("/sales");
     }
 }
