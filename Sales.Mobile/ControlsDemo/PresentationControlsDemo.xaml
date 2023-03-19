@@ -78,14 +78,12 @@
                     HorizontalOptions="Center" 
                     TextColor="White"/>
             </Border>
-            <Image
-                Source="dotnet_bot.svg"/>
             <Frame
                 Margin="5"
                 BackgroundColor="Azure"
                 Padding="10">
-            <Image
-                Source="dotnet_bot.svg"/>
+                <Image
+                    Source="dotnet_bot.svg"/>
             </Frame>
             <WebView
                 HeightRequest="500"
