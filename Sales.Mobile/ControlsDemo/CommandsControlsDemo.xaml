@@ -5,7 +5,8 @@
              Title="CommandsControlsDemo">
     <ScrollView>
         <VerticalStackLayout
-            Padding="10">
+            Padding="10"
+            Spacing="5">
             <Button
                 x:Name="btnTest"
                 Text="Click Me!"
@@ -37,19 +38,19 @@
                 SearchButtonPressed="searchControl_SearchButtonPressed"/>
 
             <SwipeView>
-            <SwipeView.LeftItems>
-                <SwipeItems>
-                    <SwipeItem
-                        BackgroundColor="LightGreen"
-                        IconImageSource="dotnet_bot.svg"  
-                        Invoked="SwipeItem_Invoked"
-                        Text="Favorite"/>
-                    <SwipeItem
-                        BackgroundColor="LightPink"
-                        IconImageSource="dotnet_bot.svg"  
-                        Invoked="SwipeItem_Invoked"
-                        Text="Delete"/>
-                </SwipeItems>
+                <SwipeView.LeftItems>
+                    <SwipeItems>
+                        <SwipeItem
+                            BackgroundColor="LightGreen"
+                            IconImageSource="dotnet_bot.svg"  
+                            Invoked="SwipeItem_Invoked"
+                            Text="Favorite"/>
+                        <SwipeItem
+                            BackgroundColor="LightPink"
+                            IconImageSource="dotnet_bot.svg"  
+                            Invoked="SwipeItem_Invoked"
+                            Text="Delete"/>
+                    </SwipeItems>
                 </SwipeView.LeftItems>
                 <Grid
                     BackgroundColor="LightGray"
@@ -61,7 +62,6 @@
                         VerticalOptions="Center"/>
                 </Grid>
             </SwipeView>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

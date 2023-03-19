@@ -22,8 +22,8 @@ public partial class CommandsControlsDemo : ContentPage
         DisplayAlert("Searching", $"Searching: {searchControl.Text}", "Ok");
     }
 
-    void SwipeItem_Invoked(object sender, EventArgs e)
-    {
-        DisplayAlert("SwipeView", $"Element Tapped", "Ok");
-    }
+	void SwipeItem_Invoked(object sender, EventArgs e)
+	{
+		DisplayAlert("SwipeView", $"Element Tapped", "Ok");
+	}
 }
