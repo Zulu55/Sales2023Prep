@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Runtime.InteropServices;
+using Microsoft.EntityFrameworkCore;
 using Sales.API.Helpers;
 using Sales.API.Services;
 using Sales.Shared.Entities;
@@ -91,7 +92,16 @@ namespace Sales.API.Data
 
             foreach (string? image in images)
             {
-                var filePath = $"{Environment.CurrentDirectory}\\Images\\products\\{image}";
+                string filePath;
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    filePath = $"{Environment.CurrentDirectory}\\Images\\products\\{image}";
+                }
+                else
+                {
+                    filePath = $"{Environment.CurrentDirectory}/Images/products/{image}";
+                }
+
                 var fileBytes = File.ReadAllBytes(filePath);
                 var imagePath = await _fileStorage.SaveFileAsync(fileBytes, "jpg", "products");
                 prodcut.ProductImages.Add(new ProductImage { Image = imagePath });
@@ -138,7 +148,16 @@ namespace Sales.API.Data
                     city = await _context.Cities.FirstOrDefaultAsync();
                 }
 
-                var filePath = $"{Environment.CurrentDirectory}\\Images\\users\\{image}";
+                string filePath;
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    filePath = $"{Environment.CurrentDirectory}\\Images\\users\\{image}";
+                }
+                else
+                {
+                    filePath = $"{Environment.CurrentDirectory}/Images/users/{image}";
+                }
+
                 var fileBytes = File.ReadAllBytes(filePath);
                 var imagePath = await _fileStorage.SaveFileAsync(fileBytes, "jpg", "users");
 
