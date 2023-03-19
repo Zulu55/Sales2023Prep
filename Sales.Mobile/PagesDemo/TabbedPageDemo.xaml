@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Sales.Mobile.PagesDemo.TabbedPageDemo"
+             Title="TabbedPageDemo"
+             BackgroundColor="DarkBlue"
+             BarTextColor="LightSalmon"
+             SelectedTabColor="DarkRed"
+             UnselectedTabColor="DarkKhaki">
+    <ContentPage
+        BackgroundColor="Aqua"
+        IconImageSource="dotnet_bot.svg"
+        Title="Page 1">
+        <Label 
+            Text="Page 1"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </ContentPage>
+    <ContentPage
+        BackgroundColor="Beige"
+        IconImageSource="dotnet_bot.svg"
+        Title="Page 2">
+        <Label 
+            Text="Page 3"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </ContentPage>
+    <ContentPage
+        BackgroundColor="Coral"
+        IconImageSource="dotnet_bot.svg"
+        Title="Page 3">
+        <Label 
+            Text="Page 3"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </ContentPage>
+</TabbedPage>
