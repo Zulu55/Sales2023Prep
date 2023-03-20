@@ -24,5 +24,11 @@
             Maximum="10"
             Minimum="2"
             Increment="2"/>
+
+        <Switch
+            IsToggled="True"/>
+
+        <DatePicker />
+        <TimePicker/>
     </VerticalStackLayout>
 </ContentPage>

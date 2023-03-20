@@ -12,11 +12,11 @@ public partial class InputControlsDemo : ContentPage
 		lblSlider.Text = slider.Value.ToString();
 	}
 
-    void stepper_ValueChanged(System.Object sender, Microsoft.Maui.Controls.ValueChangedEventArgs e)
-    {
-        if (stepper != null)
-        {
-            lblSlider.Text = stepper.Value.ToString();
-        }
-    }
+	void stepper_ValueChanged(System.Object sender, Microsoft.Maui.Controls.ValueChangedEventArgs e)
+	{
+		if (stepper != null)
+		{
+			lblSlider.Text = stepper.Value.ToString();
+		}
+	}
 }
