@@ -13,7 +13,7 @@ namespace Sales.Mobile
             navPage.BarBackgroundColor = Colors.Chocolate;
             navPage.BarTextColor = Colors.White;
 
-            MainPage = new ActivityControlsDemo();
+            MainPage = new CollectionsControlsDemo();
         }
     }
 }

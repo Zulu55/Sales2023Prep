@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Sales.Mobile.ControlsDemo.CollectionsControlsDemo"
+             Title="CollectionsControlsDemo">
+    <!--<VerticalStackLayout>
+        <CarouselView
+            IndicatorView="indicatorView">
+            <CarouselView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>mono</x:String>
+                    <x:String>monodroid</x:String>
+                    <x:String>monotouch</x:String>
+                    <x:String>monorail</x:String>
+                    <x:String>monodevelop</x:String>
+                    <x:String>monotone</x:String>
+                    <x:String>monopoly</x:String>
+                    <x:String>monomodal</x:String>
+                    <x:String>mononucleosis</x:String>
+                </x:Array>
+            </CarouselView.ItemsSource>
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Frame
+                            Margin="20"
+                            BorderColor="DarkGray"
+                            CornerRadius="5"
+                            HasShadow="True"
+                            HeightRequest="100"
+                            HorizontalOptions="Center"
+                            VerticalOptions="CenterAndExpand">
+                            <Label
+                                Text="{Binding .}"/>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <IndicatorView
+            x:Name="indicatorView"
+            HorizontalOptions="Center"
+            IndicatorColor="LightGray"
+            SelectedIndicatorColor="DarkGray"/>
+    </VerticalStackLayout>-->
+    <!--<ListView
+        HasUnevenRows="True">
+        <ListView.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+                <x:String>mono</x:String>
+                <x:String>monodroid</x:String>
+                <x:String>monotouch</x:String>
+                <x:String>monorail</x:String>
+                <x:String>monodevelop</x:String>
+                <x:String>monotone</x:String>
+                <x:String>monopoly</x:String>
+                <x:String>monomodal</x:String>
+                <x:String>mononucleosis</x:String>
+            </x:Array>
+        </ListView.ItemsSource>
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout>
+                        <Frame
+                            Margin="20"
+                            BorderColor="DarkGray"
+                            CornerRadius="5"
+                            HasShadow="True"
+                            HeightRequest="100"
+                            HorizontalOptions="Center"
+                            VerticalOptions="CenterAndExpand">
+                            <Label Text="{Binding .}" />
+                        </Frame>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>-->
+    <!--<CollectionView SelectionMode="Multiple">
+        <CollectionView.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+                <x:String>mono</x:String>
+                <x:String>monodroid</x:String>
+                <x:String>monotouch</x:String>
+                <x:String>monorail</x:String>
+                <x:String>monodevelop</x:String>
+                <x:String>monotone</x:String>
+                <x:String>monopoly</x:String>
+                <x:String>monomodal</x:String>
+                <x:String>mononucleosis</x:String>
+            </x:Array>
+        </CollectionView.ItemsSource>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <StackLayout>
+                    <Frame
+                        Margin="20"
+                        BorderColor="DarkGray"
+                        CornerRadius="5"
+                        HasShadow="True"
+                        HeightRequest="100"
+                        HorizontalOptions="Center"
+                        VerticalOptions="CenterAndExpand">
+                        <Label Text="{Binding .}" />
+                    </Frame>
+                </StackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>-->
+    <!--<StackLayout>
+        <Picker VerticalOptions="Center">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>mono</x:String>
+                    <x:String>monodroid</x:String>
+                    <x:String>monotouch</x:String>
+                    <x:String>monorail</x:String>
+                    <x:String>monodevelop</x:String>
+                    <x:String>monotone</x:String>
+                    <x:String>monopoly</x:String>
+                    <x:String>monomodal</x:String>
+                    <x:String>mononucleosis</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+    </StackLayout>-->
+    <TableView Intent="Settings">
+        <TableRoot>
+            <TableSection Title="First Section">
+                <TextCell Detail="TextCell Detail" Text="TextCell" />
+                <EntryCell Label="Entry Label" Text="EntryCell Text" />
+                <SwitchCell Text="SwitchCell Text" />
+                <ImageCell
+                    Detail="ImageCell Detail"
+                    ImageSource="dotnet_bot.svg"
+                    Text="ImageCell Text" />
+            </TableSection>
+            <TableSection Title="Second Section">
+                <TextCell Detail="TextCell Detail" Text="TextCell" />
+                <EntryCell Label="Entry Label" Text="EntryCell Text" />
+                <SwitchCell Text="SwitchCell Text" />
+                <ImageCell
+                    Detail="ImageCell Detail"
+                    ImageSource="dotnet_bot.svg"
+                    Text="ImageCell Text" />
+            </TableSection>
+        </TableRoot>
+    </TableView>
+</ContentPage>
