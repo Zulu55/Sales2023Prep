@@ -16,8 +16,10 @@ public partial class BindigPage : ContentPage
 			Phone = "322 311 4620" 
 		};
 
-		lblName.BindingContext = person;
-		lblName.SetBinding(Label.TextProperty, "Name");
+		BindingContext = person;
+
+		//lblName.BindingContext = person;
+		//lblName.SetBinding(Label.TextProperty, "Name");
 
 		//var personBinding = new Binding();
 		//personBinding.Source = person;

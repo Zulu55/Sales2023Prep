@@ -28,6 +28,7 @@
             x:Name="lblName"
             FontSize="50"
             HorizontalOptions="Center"
+            Text="{Binding Name}"
             VerticalOptions="Center"/>
 
         <Button
