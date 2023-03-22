@@ -16,11 +16,10 @@ public partial class BindigPage : ContentPage
 			Phone = "322 311 4620" 
 		};
 
-		var personBinding = new Binding();
-		personBinding.Source = person;
-		personBinding.Path = "Name";
-
-		lblName.SetBinding(Label.TextProperty, personBinding);
+		//var personBinding = new Binding();
+		//personBinding.Source = person;
+		//personBinding.Path = "Name";
+		//lblName.SetBinding(Label.TextProperty, personBinding);
 
     }
 }
