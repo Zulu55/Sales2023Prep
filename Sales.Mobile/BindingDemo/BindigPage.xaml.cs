@@ -7,8 +7,8 @@ public partial class BindigPage : ContentPage
 		InitializeComponent();
 	}
 
-    void btnOk_Clicked(System.Object sender, System.EventArgs e)
-    {
+	void btnOk_Clicked(System.Object sender, System.EventArgs e)
+	{
 		var person = new Person
 		{
 			Address = "Calle Luna Calle Sol",
@@ -16,10 +16,12 @@ public partial class BindigPage : ContentPage
 			Phone = "322 311 4620" 
 		};
 
+		lblName.BindingContext = person;
+		lblName.SetBinding(Label.TextProperty, "Name");
+
 		//var personBinding = new Binding();
 		//personBinding.Source = person;
 		//personBinding.Path = "Name";
 		//lblName.SetBinding(Label.TextProperty, personBinding);
-
-    }
+	}
 }

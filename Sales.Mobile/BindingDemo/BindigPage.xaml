@@ -17,11 +17,17 @@
         Padding="10"
         Spacing="25"
         VerticalOptions="Center">
-        <Label
+        <!--<Label
             x:Name="lblName"
             FontSize="50"
             HorizontalOptions="Center"
             Text="{Binding Name, Source={StaticResource person}}"
+            VerticalOptions="Center"/>-->
+
+        <Label
+            x:Name="lblName"
+            FontSize="50"
+            HorizontalOptions="Center"
             VerticalOptions="Center"/>
 
         <Button
