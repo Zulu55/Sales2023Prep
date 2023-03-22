@@ -1,4 +1,5 @@
-﻿using Sales.Mobile.ControlsDemo;
+﻿using Sales.Mobile.BindingDemo;
+using Sales.Mobile.ControlsDemo;
 using Sales.Mobile.PagesDemo;
 
 namespace Sales.Mobile
@@ -13,7 +14,7 @@ namespace Sales.Mobile
             navPage.BarBackgroundColor = Colors.Chocolate;
             navPage.BarTextColor = Colors.White;
 
-            MainPage = new CollectionsControlsDemo();
+            MainPage = new BindigPage();
         }
     }
 }

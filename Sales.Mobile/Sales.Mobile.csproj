@@ -58,9 +58,11 @@
 	<ItemGroup>
 	  <None Remove="PagesDemo\" />
 	  <None Remove="ControlsDemo\" />
+	  <None Remove="BindingDemo\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="PagesDemo\" />
 	  <Folder Include="ControlsDemo\" />
+	  <Folder Include="BindingDemo\" />
 	</ItemGroup>
 </Project>
