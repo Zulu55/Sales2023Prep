@@ -25,10 +25,21 @@
             VerticalOptions="Center"/>-->
 
         <Label
-            x:Name="lblName"
             FontSize="50"
             HorizontalOptions="Center"
             Text="{Binding Name}"
+            VerticalOptions="Center"/>
+
+        <Label
+            FontSize="50"
+            HorizontalOptions="Center"
+            Text="{Binding Phone}"
+            VerticalOptions="Center"/>
+
+        <Label
+            FontSize="50"
+            HorizontalOptions="Center"
+            Text="{Binding Address}"
             VerticalOptions="Center"/>
 
         <Button
