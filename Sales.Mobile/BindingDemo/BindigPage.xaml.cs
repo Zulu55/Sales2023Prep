@@ -2,28 +2,26 @@
 
 public partial class BindigPage : ContentPage
 {
+	Person _person = new();
+
 	public BindigPage()
 	{
 		InitializeComponent();
-	}
 
-	void btnOk_Clicked(System.Object sender, System.EventArgs e)
+        _person = new Person
+        {
+            Address = "Calle Luna Calle Sol",
+            Name = "Juan Zuluaga",
+            Phone = "322 311 4620"
+        };
+
+        BindingContext = _person;
+    }
+
+    void btnOk_Clicked(System.Object sender, System.EventArgs e)
 	{
-		var person = new Person
-		{
-			Address = "Calle Luna Calle Sol",
-			Name = "Juan Zuluaga",
-			Phone = "322 311 4620" 
-		};
-
-		BindingContext = person;
-
-		//lblName.BindingContext = person;
-		//lblName.SetBinding(Label.TextProperty, "Name");
-
-		//var personBinding = new Binding();
-		//personBinding.Source = person;
-		//personBinding.Path = "Name";
-		//lblName.SetBinding(Label.TextProperty, personBinding);
+        _person.Name = "Ledys";
+        _person.Phone = "322 300 1232";
+        _person.Address = "Avenida Siempre Viva";
 	}
 }

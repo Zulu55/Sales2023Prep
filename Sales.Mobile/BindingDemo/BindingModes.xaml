@@ -15,6 +15,6 @@
             x:Name="target"
             FontSize="30"
             Placeholder="Target..."
-            Text="{Binding Source={x:Reference source}, Path=Text, Mode=TwoWay}"/>
+            Text="{Binding Source={x:Reference source}, Path=Text, Mode=OneTime}"/>
     </VerticalStackLayout>
 </ContentPage>
