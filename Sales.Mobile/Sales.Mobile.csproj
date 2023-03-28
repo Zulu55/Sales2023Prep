@@ -63,6 +63,7 @@
 	  <None Remove="MVVM\Models\" />
 	  <None Remove="MVVM\Views\" />
 	  <None Remove="MVVM\ViewModels\" />
+	  <None Remove="MVVM\Converters\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="PagesDemo\" />
@@ -72,5 +73,6 @@
 	  <Folder Include="MVVM\Models\" />
 	  <Folder Include="MVVM\Views\" />
 	  <Folder Include="MVVM\ViewModels\" />
+	  <Folder Include="MVVM\Converters\" />
 	</ItemGroup>
 </Project>
