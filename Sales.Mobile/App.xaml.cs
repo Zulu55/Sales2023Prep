@@ -15,7 +15,7 @@ namespace Sales.Mobile
             navPage.BarBackgroundColor = Colors.Chocolate;
             navPage.BarTextColor = Colors.White;
 
-            MainPage = new PeopleView();
+            MainPage = new DemoAutoPropertyChangedView();
         }
     }
 }
