@@ -59,10 +59,18 @@
 	  <None Remove="PagesDemo\" />
 	  <None Remove="ControlsDemo\" />
 	  <None Remove="BindingDemo\" />
+	  <None Remove="MVVM\" />
+	  <None Remove="MVVM\Models\" />
+	  <None Remove="MVVM\Views\" />
+	  <None Remove="MVVM\ViewModels\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="PagesDemo\" />
 	  <Folder Include="ControlsDemo\" />
 	  <Folder Include="BindingDemo\" />
+	  <Folder Include="MVVM\" />
+	  <Folder Include="MVVM\Models\" />
+	  <Folder Include="MVVM\Views\" />
+	  <Folder Include="MVVM\ViewModels\" />
 	</ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Sales.Mobile.BindingDemo;
 using Sales.Mobile.ControlsDemo;
+using Sales.Mobile.MVVM.Views;
 using Sales.Mobile.PagesDemo;
 
 namespace Sales.Mobile
@@ -14,7 +15,7 @@ namespace Sales.Mobile
             navPage.BarBackgroundColor = Colors.Chocolate;
             navPage.BarTextColor = Colors.White;
 
-            MainPage = new BindigPage();
+            MainPage = new PeopleView();
         }
     }
 }
