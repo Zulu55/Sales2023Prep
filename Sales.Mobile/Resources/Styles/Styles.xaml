@@ -402,4 +402,32 @@
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
 
+    <Style TargetType="VerticalStackLayout">
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="Spacing" Value="5"/>
+        <Setter Property="Padding" Value="10"/>
+    </Style>
+
+    <Style TargetType="Button" x:Key="baseButton">
+        <Setter Property="BackgroundColor" Value="{StaticResource bgColor}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="FontSize" Value="Large"/>
+        <Setter Property="TextColor" Value="{StaticResource textColor}"/>
+    </Style>
+
+    <Style
+        TargetType="Button"
+        x:Key="primaryButton"
+        BasedOn="{StaticResource baseButton}">
+        <Setter Property="BackgroundColor" Value="{StaticResource bgColor}"/>
+    </Style>
+
+    <Style
+        TargetType="Button"
+        x:Key="secondaryButton"
+        BasedOn="{StaticResource baseButton}">
+        <Setter Property="BackgroundColor" Value="{StaticResource bg2Color}"/>
+        <Setter Property="TextColor" Value="Black"/>
+    </Style>
+
 </ResourceDictionary>
