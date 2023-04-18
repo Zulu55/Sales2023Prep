@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Sales.Mobile.MVVM.Views.DemoAutoPropertyChangedView"
+             Title="DemoAutoPropertyChangedView">
+    <VerticalStackLayout
+            VerticalOptions="Center" 
+            HorizontalOptions="Center">
+        <Entry
+            Placeholder="Number 1..."
+            Keyboard="Numeric"
+            Text="{Binding Number1}"/>
+        <Entry
+            Placeholder="Number 1..."
+            Keyboard="Numeric"
+            Text="{Binding Number2}"/>
+        <Entry
+            IsEnabled="False"
+            Placeholder="Result..."
+            Text="{Binding Result}"/>
+        <Button
+            Command="{Binding AddCommand}"
+            Text="Calculate"/>
+    </VerticalStackLayout>
+</ContentPage>

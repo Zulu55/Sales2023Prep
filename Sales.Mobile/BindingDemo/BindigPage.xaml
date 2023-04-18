@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Models="clr-namespace:Sales.Mobile.BindingDemo"
+             x:Class="Sales.Mobile.BindingDemo.BindigPage"
+             Title="BindigPage">
+
+    <ContentPage.Resources>
+        <Models:Person
+            x:Key="person"
+            Name="Juan Zuluaga"
+            Address="Calle Luna Calle Sol"
+            Phone="+57 322 311 4620"/>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout
+        Padding="10"
+        Spacing="25"
+        VerticalOptions="Center">
+        <!--<Label
+            x:Name="lblName"
+            FontSize="50"
+            HorizontalOptions="Center"
+            Text="{Binding Name, Source={StaticResource person}}"
+            VerticalOptions="Center"/>-->
+
+        <Entry
+            FontSize="50"
+            HorizontalOptions="Center"
+            Text="{Binding Name}"
+            VerticalOptions="Center"/>
+
+        <Entry
+            FontSize="50"
+            HorizontalOptions="Center"
+            Text="{Binding Phone}"
+            VerticalOptions="Center"/>
+
+        <Entry
+            FontSize="50"
+            HorizontalOptions="Center"
+            Text="{Binding Address}"
+            VerticalOptions="Center"/>
+
+        <Button
+            x:Name="btnOk"
+            Text="Bind"
+            Clicked="btnOk_Clicked"/>
+    </VerticalStackLayout>
+</ContentPage>

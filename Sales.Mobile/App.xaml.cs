@@ -1,4 +1,9 @@
-﻿namespace Sales.Mobile
+﻿using Sales.Mobile.BindingDemo;
+using Sales.Mobile.ControlsDemo;
+using Sales.Mobile.MVVM.Views;
+using Sales.Mobile.PagesDemo;
+
+namespace Sales.Mobile
 {
     public partial class App : Application
     {
@@ -6,7 +11,11 @@
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            var navPage = new NavigationPage(new MainPage());
+            navPage.BarBackgroundColor = Colors.Chocolate;
+            navPage.BarTextColor = Colors.White;
+
+            MainPage = new NavigationPage(new StyleDemoView());
         }
     }
 }

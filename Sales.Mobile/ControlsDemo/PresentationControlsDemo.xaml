@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Sales.Mobile.ControlsDemo.PresentationControlsDemo"
+             Title="PresentationControlsDemo">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="10">
+            <BoxView
+                BackgroundColor="Navy"
+                HeightRequest="200"/>
+            <Label
+                Text="Este es un label"
+                TextColor="Black"
+                FontAttributes="Bold"
+                FontSize="Large"
+                HorizontalTextAlignment="Center"/>
+            <Ellipse
+                Fill="DarkRed"
+                Stroke="DarkGreen"
+                StrokeThickness="10"
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                WidthRequest="200"/>
+            <Line
+                Stroke="Purple"
+                X1="0"
+                Y1="0"
+                X2="100"
+                Y2="50"
+                StrokeThickness="10"/>
+            <Rectangle
+                Fill="Aqua"
+                Stroke="Black"
+                StrokeThickness="5"
+                HeightRequest="50"
+                HorizontalOptions="End"
+                WidthRequest="150"
+                RadiusX="10"
+                RadiusY="10"/>
+            <Polygon
+                Fill="LightBlue"
+                Points="40,10 70,80 10,50"
+                Stroke="DarkBlue"
+                StrokeThickness="5"/>
+            <Polygon
+                Fill="Yellow"
+                Points="40,10 70,80 10,50"
+                Stroke="Green"
+                StrokeDashArray="1,1"
+                StrokeDashOffset="6"
+                StrokeThickness="5"/>
+            <Polyline
+                Points="0,0 10,30 15,0 18,60 23,30 35,30 40,0 43,60 48,30 100,30"
+                Stroke="Red"/>
+            <Polyline
+                Points="0 48, 0 144, 96 150, 100 0, 192 0, 192 96, 50 96, 48 192, 150 200 144 48"
+                Fill="Blue"
+                Stroke="Red"
+                StrokeThickness="3" />
+            <Path
+                Aspect="Uniform"
+                Data="M 10,100 L 100,100 100,50Z"
+                HorizontalOptions="Center"
+                Stroke="Black"/>
+            <Border
+                Stroke="#C49B33"
+                StrokeThickness="4"
+                Background="#2B0B98"
+                Padding="16,8"
+                HorizontalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="40,0,0,40" />
+                </Border.StrokeShape>
+                <Label
+                    Text="Welcome to .NET MAUI!"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" 
+                    TextColor="White"/>
+            </Border>
+            <Frame
+                Margin="5"
+                BackgroundColor="Azure"
+                Padding="10">
+                <Image
+                    Source="dotnet_bot.svg"/>
+            </Frame>
+            <WebView
+                HeightRequest="500"
+                Source="https://www.google.com/"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
