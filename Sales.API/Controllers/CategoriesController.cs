@@ -106,7 +106,11 @@ namespace Sales.API.Controllers
             }
             catch (DbUpdateException dbUpdateException)
             {
-                if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
+                if (dbUpdateException.InnerException == null)
+                {
+                    return BadRequest(dbUpdateException.Message);
+                }
+                else if (dbUpdateException.InnerException!.Message.Contains("duplicate"))
                 {
                     return BadRequest("Ya existe un registro con el mismo nombre.");
                 }
