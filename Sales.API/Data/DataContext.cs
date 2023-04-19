@@ -16,6 +16,8 @@ namespace Sales.API.Data
 
         public DbSet<Country> Countries { get; set; }
 
+        public DbSet<Deleteme> Deletemes { get; set; }
+
         public DbSet<Product> Products { get; set; }
 
         public DbSet<ProductCategory> ProductCategories { get; set; }
